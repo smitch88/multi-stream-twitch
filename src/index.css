@@ -1,0 +1,123 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+* Debug grid lines
+*/
+.lines {
+  border: 1px solid white;
+}
+
+/*
+* Placeholder
+*/
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #ccc;
+  font-weight: 300;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #ccc;
+  font-weight: 300;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #ccc;
+  font-weight: 300;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #ccc;
+  font-weight: 300;
+}
+
+/*
+* React Grid Layout
+*/
+
+.react-grid-layout {
+  position: relative;
+  transition: height 200ms ease;
+}
+.react-grid-item {
+  transition: all 200ms ease;
+  transition-property: left, top;
+}
+.react-grid-item.cssTransforms {
+  transition-property: transform;
+}
+.react-grid-item.resizing {
+  z-index: 1;
+  will-change: width, height;
+}
+
+.react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 3;
+  will-change: transform;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: #aaaaaa;
+  opacity: 0.2;
+  transition-duration: 100ms;
+  z-index: 2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.react-grid-item > .react-resizable-handle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  bottom: 0;
+  right: 0;
+  background: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTAwIDEwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cgkuc3Qxe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQoJLnN0MntmaWxsOm5vbmU7c3Ryb2tlOiNGRkZGRkY7c3Ryb2tlLXdpZHRoOjI7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KPC9zdHlsZT48Zz48Zz48cGF0aCBkPSJNOTcuNCw5OC40Qzk3LjQsOTguNCw5Ny40LDk4LjQsOTcuNCw5OC40TDIuNSw5OC4zYy0wLjYsMC0xLTAuNC0xLTFjMC0wLjYsMC40LTEsMS0xYzAsMCwwLDAsMCwwbDkzLjksMC4xbDAuMS05My43ICAgIGMwLTAuNiwwLjQtMSwxLTFoMGMwLjYsMCwxLDAuNCwxLDFsLTAuMSw5NC43Qzk4LjQsOTcuOSw5Ny45LDk4LjQsOTcuNCw5OC40eiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+');
+  background-position: bottom right;
+  padding: 0 4px 4px 0;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: se-resize;
+}
+
+/*
+* Animations
+*/
+
+.slideIn-enter {
+  opacity: 0.01;
+}
+
+.slideIn-enter.slideIn-enter-active {
+  opacity: 1;
+  transition: opacity, width 2500ms ease-in;
+}
+
+.slideIn-leave {
+  opacity: 1;
+}
+
+.slideIn-leave.slideIn-leave-active {
+  opacity: 0.01;
+  transition: opacity, width 2500ms ease-in;
+}
+
+.slideIn-appear {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.slideIn-appear.slideIn-appear-active {
+  opacity: 1;
+}
