@@ -47,9 +47,6 @@ class StreamWidget extends React.Component {
   constructor(props){
     super(props);
     this.playerInstance = undefined;
-    this.state = {
-      isHovered: false
-    };
   }
 
   startStream = (channelId) => {
@@ -86,7 +83,7 @@ class StreamWidget extends React.Component {
   }
 
   render(){
-    const { style, stats, channelId } = this.props;
+    const { style, channelId } = this.props;
     const styles = baseStyles(style);
     return (
       <div

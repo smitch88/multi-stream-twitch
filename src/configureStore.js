@@ -7,7 +7,7 @@ const fakeInitial = {
 
 const fakeReducer = (state = fakeInitial, action) => state;
 
-const configureStore = (environment) => {
+const configureStore = () => {
 
   // TODO:  Add environment based store configuration to seperate out redux dev tools usage
 
@@ -31,6 +31,11 @@ const configureStore = (environment) => {
   enhancer = composeEnhancers(
     applyMiddleware(...middleware)
   );
+
+  /*
+  * TODO: Load store from local storage if a layout configuration exists
+  * Use hostname to prefix the storage keys
+  */
 
   return createStore(fakeReducer, enhancer);
 };

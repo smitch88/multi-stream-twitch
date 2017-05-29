@@ -37,7 +37,7 @@ class ChannelAutoComplete extends React.Component {
   }
 
   loadOptions(){
-
+    // TODO: Async load the channels and populate the list view
   }
 
   render(){

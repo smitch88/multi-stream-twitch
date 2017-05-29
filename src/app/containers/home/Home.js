@@ -31,6 +31,7 @@ class Home extends Component {
 
   constructor(props){
     super(props);
+    // TODO: Move to global app state
     this.state = {
       title: 'Multi-Stream',
       navbarHeight: 50,

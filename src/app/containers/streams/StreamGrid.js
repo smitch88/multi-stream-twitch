@@ -12,6 +12,7 @@ const streamGridStyles = (props) => ({
   }
 });
 
+// TODO: Move to global app state
 const mockLayout = [{
   i: 'widget-1',
   x: 0,

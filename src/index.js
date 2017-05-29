@@ -19,17 +19,11 @@ const styles = {
   }
 };
 
-// TODO: Add redux store provider here
-
-const store = configureStore();
-
-console.log('store', store);
-
 const Root = () => (
-  <Provider store={ store }>
+  <Provider store={ configureStore() }>
     <Router>
       <div style={ styles.page__container }>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={ Home }/>
       </div>
     </Router>
   </Provider>
