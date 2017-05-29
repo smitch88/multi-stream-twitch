@@ -22,11 +22,6 @@ kbmod multistream
 3. Keybindings to mute/unmute -> go full screen quicker
 4. Unified chat to broadcast the same message across a subset of the streams in view
 
-##### Setup
-A. Eject `create-react-app` scaffolding in favor of customizing ourselves
-B. Add proper folder structure
-C. Add linter
-
 ##### Codez
 
 1. Add Redux
