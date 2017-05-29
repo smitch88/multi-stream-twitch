@@ -1,8 +1,6 @@
 import React from 'react';
-import CloseIcon from 'react-icons/lib/md/close';
 import PropTypes from 'prop-types';
-import Color from 'color';
-import theme from '../../theme';
+import WidgetToolbar from './WidgetToolbar';
 
 const baseStyles = (overrides) => ({
   widget__container: {
@@ -13,29 +11,11 @@ const baseStyles = (overrides) => ({
     backgroundColor: '#111111',
     border: '1px solid #333'
   },
-  widget__toolbar: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    height: 20,
-    padding: '0 5px',
-    backgroundColor: theme.colors.black
-  },
-  widget__closer: {
-
-  },
-  closer: {
-    cursor: 'pointer'
-  },
   stream__view: {
     height: 'calc(100% - 20px)',
     width: '100%'
   }
 });
-
-const StreamStats = () => (
-  <div className="stream-stats" />
-);
 
 /*
 * Custom component that interacts w/ the twitch player api to have full-control
@@ -90,17 +70,7 @@ class StreamWidget extends React.Component {
         className="stream-widget-component"
         style={ styles.widget__container }
       >
-        <div
-          className="stream-widget-toolbar"
-          style={ styles.widget__toolbar }
-        >
-          <div
-            className="widget-closer"
-            style={ styles.widget__closer }
-          >
-            <CloseIcon style={ styles.closer } />
-          </div>
-        </div>
+        <WidgetToolbar onClose={ () => alert('TODO: Implement close handler.') } />
         <div
           id={ channelId }
           style={ styles.stream__view }
@@ -108,7 +78,6 @@ class StreamWidget extends React.Component {
       </div>
     );
   }
-
 }
 
 StreamWidget.propTypes = {
