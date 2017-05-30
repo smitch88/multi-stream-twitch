@@ -32,11 +32,15 @@ export default {
       backgroundColor: 'rgba(0,0,0,0.6)'
     },
     content: {
+      position: 'relative',
+      overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'transparent',
-      border: 'none'
+      border: 'none',
+      height: '50%',
+      width: '50%'
     }
   },
   // Component defined style override map
@@ -47,12 +51,11 @@ export default {
       fontFamily: theme.typography.base.fontFamily,
       height: '100%',
       width: '100%',
-      maxHeight: '50%',
-      maxWidth: '60%',
       padding: 20,
       backgroundColor: '#fff',
       border: '1px solid #333',
-      color: theme.colors.black
+      color: theme.colors.black,
+      overflowY: 'scroll'
     },
     title: {
       margin: 0,
