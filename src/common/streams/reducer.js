@@ -9,8 +9,10 @@ const StreamsState = Record({
     h: 6,
     minW: 3,
     minH: 2,
+    playerId: 'cam_zach',
     channelId: 'cam_zach',
-    muted: true
+    muted: true,
+    type: 'twitch'
   },
   {
     i: 'widget-2',
@@ -20,8 +22,10 @@ const StreamsState = Record({
     h: 6,
     minW: 3,
     minH: 2,
+    playerId: 'undergroundies',
     channelId: 'undergroundies',
-    muted: true
+    muted: true,
+    type: 'twitch'
   },
   {
     i: 'widget-3',
@@ -31,8 +35,23 @@ const StreamsState = Record({
     h: 6,
     minW: 3,
     minH: 2,
+    playerId: 'pixelprodotco',
     channelId: 'pixelprodotco',
-    muted: true
+    muted: true,
+    type: 'twitch'
+  },
+  {
+    i: 'widget-4',
+    x: 6,
+    y: 6,
+    w: 6,
+    h: 6,
+    minW: 3,
+    minH: 2,
+    playerId: 'M7lc1UVf-VE',
+    videoId: 'M7lc1UVf-VE',
+    muted: true,
+    type: 'youtube'
   }],
   rowHeight: 45,
   draggableSelector: '.stream-widget-component'

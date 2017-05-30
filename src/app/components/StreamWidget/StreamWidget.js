@@ -43,45 +43,73 @@ class StreamWidget extends React.Component {
     this.defaultStartVolume = 0.5; // 50%
   }
 
-  setupChannelConfiguration = () => {
-
+  setupYTStream = () => {
     const { muted } = this.props;
+    if(muted){
+      this.playerInstance.mute();
+    } else {
+      this.playerInstance.unmute();
+      this.playerinstance.setVolume(this.defaultStartVolume * 100);
+    }
+  }
 
-    // Set muted stream
+  setupTwitchStream = () => {
+    const { muted } = this.props;
     this.playerInstance.setMuted(muted);
-
-    // If not muted set the volume
     if(!muted){
       this.playerinstance.setVolume(this.defaultStartVolume);
     }
   }
 
+  setupChannelConfiguration = () => {
+    switch(this.props.type){
+      case 'youtube':
+        this.setupYTStream();
+        break;
+      default:
+        this.setupTwitchStream()
+    }
+  }
+
   setReady = () => {
+    console.log('setting ready for', this.props);
     setTimeout(() => {
       this.setState({ isReady: true }, this.setupChannelConfiguration)
     }, 1500);
   }
 
   startStream = () => {
+    const { type, channelId, videoId } = this.props;
+    console.log('type', type);
+    switch(type){
+      case 'youtube':
+        setTimeout(() => {
+          this.playerInstance = new window.YT.Player(videoId, {
+            height: '100%',
+            width: '100%',
+            videoId: videoId,
+            events: {
+              onReady: this.setReady
+            }
+          });
+          console.log('youtube instance', this.playerInstance);
+        }, 0);
+        break;
 
-    const { channelId } = this.props;
-
-    const streamOptions = {
-      width: '100%',
-      height: '100%',
-      channel: channelId
-    };
-
-    // Instantiate the embedded twitch client w/ a channelId
-    setTimeout(() => {
-      this.playerInstance = new window.Twitch.Player(channelId, streamOptions);
-      this.playerInstance.addEventListener('ready', this.setReady);
-    }, 0);
-
+      default:
+        setTimeout(() => {
+          this.playerInstance = new window.Twitch.Player(channelId, {
+            width: '100%',
+            height: '100%',
+            channel: channelId
+          });
+          this.playerInstance.addEventListener('ready', this.setReady);
+        }, 0);
+    }
   }
 
   componentDidMount(){
-    if(this.props.channelId){
+    if(this.props.playerId){
       this.startStream();
     } else {
       console.warn('No channel id was provided for the container');
@@ -93,7 +121,7 @@ class StreamWidget extends React.Component {
   }
 
   render(){
-    const { style, channelId } = this.props;
+    const { style, type, playerId } = this.props;
     const styles = baseStyles(style);
     return (
       <div
@@ -110,7 +138,7 @@ class StreamWidget extends React.Component {
             <WidgetToolbar onClose={ () => alert('TODO: Implement close handler.') } />
         }
         <div
-          id={ channelId }
+          id={ playerId }
           className="stream-container"
           style={ styles.stream__view }
         />
@@ -118,7 +146,7 @@ class StreamWidget extends React.Component {
           className="moving-container"
           style={ styles.moving__container }
         >
-          { channelId }
+          { playerId }
         </div>
       </div>
     );
