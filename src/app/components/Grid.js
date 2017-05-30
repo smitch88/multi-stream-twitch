@@ -31,6 +31,7 @@ class Grid extends React.Component {
 
   constructor(props){
     super(props);
+    this.resizeTimer = undefined;
     this.defaults = {
       breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
       cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
@@ -73,6 +74,14 @@ class Grid extends React.Component {
     this.setState({ isMoving: false });
   }
 
+  handleResizeMovement = () => {
+    this.handleMovement();
+    clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => {
+      this.handleMovementStopped();
+    }, 500);
+  }
+
   handleLayoutChange = (currentLayout, allLayouts) => {
     if(this.props.onLayoutChange){
       // Communicate externally and respond w/ new layout after changes occurred
@@ -81,12 +90,20 @@ class Grid extends React.Component {
     }
   }
 
+  componentWillUnmount(){
+    window.removeEventListener('resize', this.handleResizeMovement);
+  }
+
+  componentDidMount(){
+    window.addEventListener('resize', this.handleResizeMovement);
+  }
+
   render(){
     const { isMoving, breakpoints, cols, rowHeight, draggableSelector } = this.state;
     return (
       <div
         style={ styles.grid__container }
-        className={ isMoving && 'grid-is-moving' }
+        className={ isMoving ? 'grid-is-moving' : 'grid-is-static' }
       >
         <ResponsiveReactGridLayout
           className="grid-component"
