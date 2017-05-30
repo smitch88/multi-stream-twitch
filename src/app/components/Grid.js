@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import * as _ from 'lodash';
-import Color from 'color';
-import theme from '../theme';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -16,7 +13,9 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const styles = {
   grid__container: {
     height: '100%',
-    width: '100%'
+    width: '100%',
+    overflowX: 'hidden',
+    overflowY: 'scroll'
   },
   grid__item: {
     display: 'flex',
@@ -84,6 +83,8 @@ class Grid extends React.Component {
           layouts={ this.generateLayout() }
           breakpoints={ breakpoints }
           cols={ cols }
+          margin={[15, 15]}
+          containerPadding={[15, 15]}
           onLayoutChange={ this.handleLayoutChange }
         >
           { this.childrenToGridItems() }

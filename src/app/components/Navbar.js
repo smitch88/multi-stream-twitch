@@ -14,9 +14,13 @@ const navbarStyles = ({ height, style }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingLeft: theme.spacing,
-    paddingRight: theme.spacing
+    paddingRight: theme.spacing,
+    width: '100%',
+    height: '100%'
   },
   navbar__title: {
+    display: 'flex',
+    flexShrink: 0,
     marginTop: 0,
     marginBottom: 0,
     color: 'inherit',

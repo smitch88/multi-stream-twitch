@@ -3,7 +3,7 @@ import React from 'react';
 const footerStyles = ({ height }) => ({
   footer__container: {
     display: height === 0 ? 'none' : 'flex',
-    height: height || 50,
+    height: `${(height/16)}em`|| '1em',
     color: 'inherit',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -14,7 +14,6 @@ const footerStyles = ({ height }) => ({
 
 const Footer = (props) => {
   const styles = footerStyles(props);
-  const { height } = props;
   return (
     <div
       className="footer-component"

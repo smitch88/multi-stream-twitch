@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CloseIcon from 'react-icons/lib/md/close';
-import Color from 'color';
+import Closer from '../Closer';
 import theme from '../../theme';
 
 const baseStyles = (overrides) => ({
@@ -13,11 +12,10 @@ const baseStyles = (overrides) => ({
     padding: '0 5px',
     backgroundColor: theme.colors.black
   }, overrides.toolbar),
-  widget__closer: {
-    cursor: 'pointer'
-  },
   closer: {
-    fontSize: '1.1em'
+    icon: {
+      color: theme.colors.white
+    }
   },
 });
 
@@ -30,13 +28,10 @@ const WidgetToolbar = ({ style = {}, onClose }) => {
     >
       {
         onClose &&
-          <div
-            className="widget-closer"
-            style={ styles.widget__closer }
-            onClick={ onClose}
-          >
-            <CloseIcon style={ styles.closer } />
-          </div>
+          <Closer
+            style={ styles.closer }
+            onClose={ onClose }
+          />
       }
     </div>
   );

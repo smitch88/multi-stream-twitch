@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WidgetToolbar from './WidgetToolbar';
+import LoadingIndicator from '../LoadingIndicator';
+import theme from '../../theme';
 
 const baseStyles = (overrides) => ({
   widget__container: {
@@ -8,7 +10,7 @@ const baseStyles = (overrides) => ({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
-    backgroundColor: '#111111',
+    backgroundColor: theme.colors.black,
     border: '1px solid #333'
   },
   stream__view: {
@@ -26,10 +28,35 @@ class StreamWidget extends React.Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      isReady: false
+    };
     this.playerInstance = undefined;
+    this.defaultStartVolume = 0.5; // 50%
   }
 
-  startStream = (channelId) => {
+  setupChannelConfiguration = () => {
+
+    const { muted } = this.props;
+
+    // Set muted stream
+    this.playerInstance.setMuted(muted);
+
+    // If not muted set the volume
+    if(!muted){
+      this.playerinstance.setVolume(this.defaultStartVolume);
+    }
+  }
+
+  setReady = () => {
+    setTimeout(() => {
+      this.setState({ isReady: true }, this.setupChannelConfiguration)
+    }, 1500);
+  }
+
+  startStream = () => {
+
+    const { channelId } = this.props;
 
     const streamOptions = {
       width: '100%',
@@ -40,19 +67,16 @@ class StreamWidget extends React.Component {
     // Instantiate the embedded twitch client w/ a channelId
     this.playerInstance = new window.Twitch.Player(channelId, streamOptions);
 
-    // Mute initially
-    this.playerInstance.setVolume(0);
-
-    // Start event handler
-    window.onPlayerEvent = (data) => {
-      console.log('player event captured', data);
+    // Configure player instance based on player props
+    if(this.playerInstance){
+      this.playerInstance.addEventListener('ready', this.setReady);
     }
 
   }
 
   componentDidMount(){
     if(this.props.channelId){
-      this.startStream(this.props.channelId);
+      this.startStream();
     } else {
       console.warn('No channel id was provided for the container');
     }
@@ -70,7 +94,15 @@ class StreamWidget extends React.Component {
         className="stream-widget-component"
         style={ styles.widget__container }
       >
-        <WidgetToolbar onClose={ () => alert('TODO: Implement close handler.') } />
+        {
+          !this.state.isReady ?
+            <LoadingIndicator
+              name="ball-scale-ripple-multiple"
+              cover={ true }
+            />
+            :
+            <WidgetToolbar onClose={ () => alert('TODO: Implement close handler.') } />
+        }
         <div
           id={ channelId }
           style={ styles.stream__view }

@@ -1,50 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, StreamWidget } from '../../components';
 
-const streamGridStyles = (props) => ({
+const streamGridStyles = (offset) => ({
   grid__container: {
     display: 'flex',
-    height: `calc(100% - ${props.offset}px)`,
+    height: `calc(100% - ${offset}px)`,
     width: '100%',
     color: 'inherit',
     overflow: 'auto'
   }
 });
 
-// TODO: Move to global app state
-const mockLayout = [{
-  i: 'widget-1',
-  x: 0,
-  y: 0,
-  w: 6,
-  h: 6,
-  channelId: 'pixelprodotco'
-},
-{
-  i: 'widget-2',
-  x: 6,
-  y: 0,
-  w: 6,
-  h: 6,
-  channelId: 'cam_zach'
-},
-{
-  i: 'widget-3',
-  x: 0,
-  y: 6,
-  w: 6,
-  h: 6,
-  channelId: 'junicus'
-}];
-
-const StreamGrid = (props) => {
-  const styles = streamGridStyles(props);
-  // TODO: Retrieve layout from redux|connect props when that is hooked up
-  const layout = mockLayout;
-  const streams = layout.map((props, index) => (
-    <StreamWidget key={ index } { ...props } />
-  ));
+const StreamGrid = ({ draggableSelector, layout, offset, rowHeight }) => {
+  const styles = streamGridStyles(offset);
   return (
     <div
       className="stream-grid"
@@ -53,16 +23,23 @@ const StreamGrid = (props) => {
       <Grid
         layout={ layout }
         rowHeight={ 45 }
-        draggableSelector=".stream-widget-toolbar"
+        draggableSelector={ draggableSelector }
       >
-        { streams }
+        {
+          layout.map((props, index) => (
+            <StreamWidget key={ index } { ...props } />
+          ))
+        }
       </Grid>
     </div>
   );
 };
 
 StreamGrid.propTypes = {
-  offset: PropTypes.number
+  layout: PropTypes.array.isRequired,
+  rowHeight: PropTypes.number.isRequired,
+  offset: PropTypes.number,
+  draggableSelector: PropTypes.string
 };
 
-export default StreamGrid;
+export default connect(state => state.streams.toJS())(StreamGrid);

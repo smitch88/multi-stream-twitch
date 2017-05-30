@@ -15,7 +15,9 @@ const defaultColorScheme = {
   lightestGray: baseColor.lighten(0.9).string(),
   primary: '#4b367c',
   secondary: '#f2f2f2',
-  accent: '#170A1F'
+  accent: '#170A1F',
+  // others
+  red: Color('#e74c3c').string(),
 };
 
 const colors = (overrides) => defaultColorScheme;
@@ -29,8 +31,12 @@ const defaultFonts = 'Roboto, HelveticaNeue-Light", "Helvetica Neue Light", "Hel
 const typography = (overrides) => ({
   base: {
     fontFamily: _.get(overrides, ['base', 'fontFamily'], defaultFonts),
-    fontWeight: 300,
+    fontWeight: _.get(overrides, ['base', 'fontWeight'], 300),
     color:  _.get(overrides, ['base', 'color'], defaultColorScheme.white)
+  },
+  branding: {
+    fontFamily: _.get(overrides, ['branding', 'fontFamily'], defaultFonts),
+    fontWeight: _.get(overrides, ['branding', 'fontWeight'], 500)
   },
   header: {
     fontSize: '1.75em',
@@ -63,6 +69,10 @@ const applicationThemeOverrides = {
     base: {
       fontFamily: 'Roboto, sans-serif',
       color: colors.white
+    },
+    branding: {
+      fontFamily: 'Orbitron, sans-serif',
+      fontWeight: 300
     }
   }
 };

@@ -22,7 +22,7 @@
 		e(0)
 	}
 	([function (t, e, n) {
-				
+
 				function r(t) {
 					if (t && t.__esModule)
 						return t;
@@ -263,7 +263,7 @@
 				}
 				t.exports = n
 			}, function (t, e, n) {
-				
+
 				function r(t) {
 					return t && t.__esModule ? t : {
 						"default" : t
@@ -384,7 +384,7 @@
 								key : "_getHostReady",
 								value : function () {
 									var t = this;
-									return new d.Promise(function (e, n) {
+                  return new d.Promise(function (e, n) {
 										function r(t) {
 											this._isClientMessage(t) && t.data.method === w && (window.removeEventListener("message", i), window.addEventListener("message", this), this._eventEmitter.emit(E), e())
 										}
@@ -1112,7 +1112,7 @@
 			}, function (t, e, n) {
 				var r;
 				(function () {
-					
+
 					function e() {}
 
 					function i(t, e) {
@@ -1263,7 +1263,7 @@
 					!(void 0 !== r && (t.exports = r))
 				}).call(this)
 			}, function (t, e) {
-				
+
 				function n(t) {
 					for (var e = {
 							strictMode : !1,
@@ -1289,7 +1289,7 @@
 				}),
 				e.parseUri = n
 			}, function (t, e) {
-				
+
 				function n(t) {
 					for (var e = {}, n = t.split("&"), r = 0; r < n.length; r++) {
 						var i = /^(.+?)(?:=(.+))?$/.exec(n[r]);
@@ -1328,7 +1328,7 @@
 					 * @version   3.1.2
 					 */
 					(function () {
-						
+
 						function u(t) {
 							return "function" === typeof t || "object" === typeof t && null !== t
 						}

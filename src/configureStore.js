@@ -1,11 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-
-const fakeInitial = {
-  test: false,
-  stuff: []
-};
-
-const fakeReducer = (state = fakeInitial, action) => state;
+import { reducer } from './common/'
 
 const configureStore = () => {
 
@@ -37,7 +31,7 @@ const configureStore = () => {
   * Use hostname to prefix the storage keys
   */
 
-  return createStore(fakeReducer, enhancer);
+  return createStore(reducer, enhancer);
 };
 
 export default configureStore;

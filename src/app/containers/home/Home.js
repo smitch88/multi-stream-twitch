@@ -1,66 +1,55 @@
-import React, { Component } from 'react';
-import InfoIcon from 'react-icons/lib/md/info';
+import React from 'react';
+import { connect } from 'react-redux';
+import { showHelp, hideHelp } from '../../../common/home/actions';
 import {
   Footer,
   Navbar,
-  StatBar
+  HelpDialog
 } from '../../components';
 import ChannelAutoComplete from '../streams/ChannelAutoComplete';
+import ViewSwitcher from '../home/ViewSwitcher';
 import StreamGrid from '../streams/StreamGrid';
-import theme from '../../theme/';
+import styles from './styles';
 
-const styles = {
-  container: Object.assign({}, {
-    display: 'flex',
-    flexDirection: 'column',
-    height: 'inherit',
-    width: 'inherit',
-    background: theme.colors.black
-  }, theme.typography.base),
-  navbar: {
-    backgroundColor: theme.colors.primary
-  },
-  icon: {
-    fontSize: '2em',
-    cursor: 'pointer',
-    marginLeft: 10
-  }
-};
-
-class Home extends Component {
-
-  constructor(props){
-    super(props);
-    // TODO: Move to global app state
-    this.state = {
-      title: 'Multi-Stream',
-      navbarHeight: 50,
-      footerHeight: 50
-    }
-  }
-
-  render() {
-    // Determines the center height offset based on whether a navbar or footer are visible
-    const { navbarHeight, footerHeight, title } = this.state;
-    const gridOffset = navbarHeight + footerHeight;
-    return (
-      <div style={ styles.container }>
-        <Navbar
-          title={ title }
-          height={ navbarHeight }
-          style={ styles.navbar }
-        >
-          <ChannelAutoComplete />
-          { /* TODO: Action Icons */ }
-        </Navbar>
-        <StreamGrid offset={ gridOffset } />
-        <Footer height={ footerHeight }>
-          { /* TODO: Help dialog */}
-          <InfoIcon style={ styles.icon } />
-        </Footer>
+const Home = ({
+  footerHeight,
+  navbarHeight,
+  showingHelp,
+  title,
+  onHideHelp,
+  onShowHelp
+}) => (
+  <div style={ styles.container }>
+    <Navbar
+      title={ title }
+      height={ navbarHeight }
+      style={ styles.navbar }
+    >
+      <div style={ styles.navbar__inner }>
+        <ChannelAutoComplete />
+        <div style={ styles.navbar__actions }>
+          <ViewSwitcher />
+        </div>
       </div>
-    );
-  }
-}
+    </Navbar>
+    <StreamGrid offset={ navbarHeight + footerHeight } />
+    <Footer height={ footerHeight }>
+      <HelpDialog
+        style={ styles }
+        isOpen={ showingHelp }
+        onClose={ onHideHelp }
+        onOpen={ onShowHelp }
+        screenReaderHelp="Multi-Stream How To Guide"
+      />
+    </Footer>
+  </div>
+);
 
-export default Home;
+const mapState = state => state.home.toJS();
+
+const mapDispatch = dispatch => ({
+  onShowHelp: () => dispatch(showHelp()),
+  onHideHelp: () => dispatch(hideHelp())
+});
+
+export default connect(mapState, mapDispatch)(Home);
