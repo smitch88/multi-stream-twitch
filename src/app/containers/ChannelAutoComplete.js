@@ -67,11 +67,18 @@ const styles = {
   item__name: {
     margin: 0,
     fontWeight: 400,
-    fontSize: '1em'
+    fontSize: '1em',
+    paddingBottom: 5
+  },
+  item__views: {
+    marginLeft: 10,
+    color: '#777777',
+    fontSize: '0.825em',
+    textTransform: 'uppercase'
   },
   item__description: {
     margin: 0,
-    color: theme.colors.gray,
+    color: '#777777',
     fontSize: '0.85em'
   }
 };
@@ -84,12 +91,18 @@ class ChannelAutoComplete extends React.Component {
     const { name, display_name, views, followers, description, logo, video_banner, url } = item;
     return (
       <div
+        key={ item.name }
         className="channel-list-item"
         style={ styles.list__item }
       >
         <img src={ logo || video_banner || missingIcon } style={ styles.item__image } />
         <div style={ styles.item__meta }>
-          <h2 style={ styles.item__name }>{ `${display_name} - ${name}`}</h2>
+          <h2 style={ styles.item__name }>
+            { `${display_name} - ${name}`}
+            <small style={ styles.item__views }>
+              { `(Views: ${ views }, Followers: ${ followers })`}
+            </small>
+          </h2>
           <p style={ styles.item__description }>{ _.truncate(description, { length: 85 }) }</p>
         </div>
       </div>

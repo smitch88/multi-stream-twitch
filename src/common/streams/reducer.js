@@ -1,6 +1,7 @@
 import { Record } from 'immutable';
 
 const StreamsState = Record({
+  // mock layout for now
   layout: [{
     i: 'widget-1',
     x: 0,
@@ -22,8 +23,8 @@ const StreamsState = Record({
     h: 6,
     minW: 3,
     minH: 2,
-    playerId: 'undergroundies',
-    channelId: 'undergroundies',
+    playerId: 'mavvox',
+    channelId: 'mavvox',
     muted: true,
     type: 'twitch'
   },
@@ -42,14 +43,14 @@ const StreamsState = Record({
   },
   {
     i: 'widget-4',
-    x: 6,
+    x: 0,
     y: 6,
-    w: 6,
-    h: 6,
+    w: 12,
+    h: 12,
     minW: 3,
     minH: 2,
-    playerId: '-pq0a5Yfa1g',
-    videoId: '-pq0a5Yfa1g',
+    playerId: 'IR2p6OQqJj0',
+    videoId: 'IR2p6OQqJj0',
     muted: true,
     type: 'youtube'
   }],

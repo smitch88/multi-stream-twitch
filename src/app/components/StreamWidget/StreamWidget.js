@@ -100,11 +100,11 @@ class StreamWidget extends React.Component {
             height: '100%',
             width: '100%',
             videoId: videoId,
+            playerVars: { 'autoplay': 1, 'controls': 0 },
             events: {
               onReady: this.setReady
             }
           });
-          console.log('youtube instance', this.playerInstance);
         }, 0);
         break;
 
