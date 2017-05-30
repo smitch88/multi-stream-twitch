@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showHelp, hideHelp } from '../../../common/home/actions';
-import {
-  Footer,
-  Navbar,
-  HelpDialog
-} from '../../components';
-import ChannelAutoComplete from '../streams/ChannelAutoComplete';
-import ViewSwitcher from '../home/ViewSwitcher';
-import StreamGrid from '../streams/StreamGrid';
+import { Footer, Navbar, HelpDialog } from '../../components';
+import ChannelAutoComplete from '../ChannelAutoComplete';
+import ViewSwitcher from '../ViewSwitcher';
+import StreamGrid from '../StreamGrid';
 import styles from './styles';
 
 const Home = ({
@@ -28,7 +24,10 @@ const Home = ({
       <div style={ styles.navbar__inner }>
         <ChannelAutoComplete />
         <div style={ styles.navbar__actions }>
-          <ViewSwitcher />
+          <ViewSwitcher
+            showingGridView={ true }
+            onClick={ () => alert('TODO: Switch from grid to full screen arrow navigator view') }
+          />
         </div>
       </div>
     </Navbar>

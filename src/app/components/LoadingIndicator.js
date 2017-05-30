@@ -29,7 +29,6 @@ const LoadingIndicator = ({ name = 'ball-clip-rotate', cover = false, color }) =
     >
       <Spinner
         name={ name }
-        fadeIn="full"
         color={ color || theme.colors.white }
       />
     </div>

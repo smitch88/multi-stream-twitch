@@ -1,31 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import Home from './app/containers/home/Home';
-import './index.css';
+import theme from './app/theme';
 import configureStore from './configureStore';
+import './index.css';
 
 const styles = {
   page__container: {
     display: 'flex',
     height: '100%',
     width: '100%',
-    backgroundColor: '#000000'
+    backgroundColor: theme.colors.black
   }
 };
 
 const Root = () => (
   <Provider store={ configureStore() }>
-    <Router>
+    <BrowserRouter>
       <div style={ styles.page__container }>
         <Route exact path="/" component={ Home }/>
       </div>
-    </Router>
+    </BrowserRouter>
   </Provider>
 );
 

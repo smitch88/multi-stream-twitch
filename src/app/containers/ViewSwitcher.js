@@ -11,7 +11,7 @@ const styles = {
 };
 
 const ViewSwitcher = ({ showingGridView, onClick }) => {
-  const Icon = showingGridView ? GridViewIcon : ShuffleViewIcon;
+  const Icon = !showingGridView ? GridViewIcon : ShuffleViewIcon;
   return (
     <div className="view-switcher-component">
       <Icon

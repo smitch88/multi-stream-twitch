@@ -138,3 +138,8 @@ body, #root {
 .slideIn-appear.slideIn-appear-active {
   opacity: 1;
 }
+
+
+.channel-list-item:hover {
+  background-color: #dddddd;
+}
