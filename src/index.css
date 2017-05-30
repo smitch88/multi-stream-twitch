@@ -93,15 +93,15 @@ body, #root {
   z-index: 2;
 }
 
-.stream-widget-component div.moving-container {
+.stream-widget-component .moving-container {
   display: none;
 }
 
-.grid-is-moving .react-grid-item .stream-widget-component div.stream-container {
+.grid-is-moving .react-grid-item .stream-widget-component .stream-container {
   display: none !important;
 }
 
-.grid-is-moving .react-grid-item .stream-widget-component div.moving-container {
+.grid-is-moving .react-grid-item .stream-widget-component .moving-container {
   display: flex !important;
 }
 

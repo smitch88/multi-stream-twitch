@@ -48,8 +48,8 @@ const StreamsState = Record({
     h: 6,
     minW: 3,
     minH: 2,
-    playerId: 'M7lc1UVf-VE',
-    videoId: 'M7lc1UVf-VE',
+    playerId: '-pq0a5Yfa1g',
+    videoId: '-pq0a5Yfa1g',
     muted: true,
     type: 'youtube'
   }],

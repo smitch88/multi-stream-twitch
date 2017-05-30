@@ -15,7 +15,7 @@ const baseStyles = (overrides) => ({
     cursor: 'move'
   },
   stream__view: {
-    height: 'calc(100% - 20px)',
+    height: 'calc(100% - 25px)',
     width: '100%'
   },
   moving__container: {
@@ -24,6 +24,11 @@ const baseStyles = (overrides) => ({
     justifyContent: 'center',
     height: '100%',
     width: '100%'
+  },
+  widget__toolbar: {
+    toolbar: {
+      height: 25
+    }
   }
 });
 
@@ -71,16 +76,23 @@ class StreamWidget extends React.Component {
     }
   }
 
+  delayTime(type){
+    switch(type){
+      case 'youtube':
+        return 100;
+      default:
+        return 1500;
+    }
+  }
+
   setReady = () => {
-    console.log('setting ready for', this.props);
     setTimeout(() => {
       this.setState({ isReady: true }, this.setupChannelConfiguration)
-    }, 1500);
+    }, this.delayTime(this.props.type));
   }
 
   startStream = () => {
     const { type, channelId, videoId } = this.props;
-    console.log('type', type);
     switch(type){
       case 'youtube':
         setTimeout(() => {
@@ -135,7 +147,10 @@ class StreamWidget extends React.Component {
               cover={ true }
             />
             :
-            <WidgetToolbar onClose={ () => alert('TODO: Implement close handler.') } />
+            <WidgetToolbar
+              style={ styles.widget__toolbar }
+              onClose={ () => alert('TODO: Implement close handler.') }
+            />
         }
         <div
           id={ playerId }
@@ -146,7 +161,7 @@ class StreamWidget extends React.Component {
           className="moving-container"
           style={ styles.moving__container }
         >
-          { playerId }
+          { `${type.toUpperCase()} - ${playerId}` }
         </div>
       </div>
     );
