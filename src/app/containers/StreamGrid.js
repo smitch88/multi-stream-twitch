@@ -23,7 +23,6 @@ const StreamGrid = ({ draggableSelector, layout, offset, rowHeight }) => {
       <Grid
         layout={ layout }
         rowHeight={ 45 }
-        draggableSelector={ draggableSelector }
       >
         {
           layout.map((props, index) => (

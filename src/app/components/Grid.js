@@ -35,7 +35,8 @@ class Grid extends React.Component {
       breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
       cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
       rowHeight: 30,
-      draggableSelector: '.grid-item-component'
+      draggableSelector: '.grid-item-component',
+      isMoving: false
     };
     // Maps directly to https://github.com/STRML/react-grid-layout#responsive-grid-layout-props
     this.state = Object.assign({}, this.defaults, props);
@@ -64,6 +65,14 @@ class Grid extends React.Component {
     ))
   )
 
+  handleMovement = () => {
+    this.setState({ isMoving: true });
+  }
+
+  handleMovementStopped = () => {
+    this.setState({ isMoving: false });
+  }
+
   handleLayoutChange = (currentLayout, allLayouts) => {
     if(this.props.onLayoutChange){
       // Communicate externally and respond w/ new layout after changes occurred
@@ -73,9 +82,12 @@ class Grid extends React.Component {
   }
 
   render(){
-    const { breakpoints, cols, rowHeight, draggableSelector } = this.state;
+    const { isMoving, breakpoints, cols, rowHeight, draggableSelector } = this.state;
     return (
-      <div style={ styles.grid__container }>
+      <div
+        style={ styles.grid__container }
+        className={ isMoving && 'grid-is-moving' }
+      >
         <ResponsiveReactGridLayout
           className="grid-component"
           draggableHandle={ draggableSelector }
@@ -86,6 +98,10 @@ class Grid extends React.Component {
           margin={[15, 15]}
           containerPadding={[15, 15]}
           onLayoutChange={ this.handleLayoutChange }
+          onDrag={ this.handleMovement }
+          onResize={ this.handleMovement }
+          onDragStop={ this.handleMovementStopped }
+          onResizeStop={ this.handleMovementStopped }
         >
           { this.childrenToGridItems() }
         </ResponsiveReactGridLayout>

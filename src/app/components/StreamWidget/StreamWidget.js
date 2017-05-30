@@ -11,10 +11,18 @@ const baseStyles = (overrides) => ({
     height: '100%',
     width: '100%',
     backgroundColor: theme.colors.black,
-    border: '1px solid #333'
+    border: '1px solid #333',
+    cursor: 'move'
   },
   stream__view: {
     height: 'calc(100% - 20px)',
+    width: '100%'
+  },
+  moving__container: {
+    display: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
     width: '100%'
   }
 });
@@ -65,12 +73,10 @@ class StreamWidget extends React.Component {
     };
 
     // Instantiate the embedded twitch client w/ a channelId
-    this.playerInstance = new window.Twitch.Player(channelId, streamOptions);
-
-    // Configure player instance based on player props
-    if(this.playerInstance){
+    setTimeout(() => {
+      this.playerInstance = new window.Twitch.Player(channelId, streamOptions);
       this.playerInstance.addEventListener('ready', this.setReady);
-    }
+    }, 0);
 
   }
 
@@ -105,8 +111,15 @@ class StreamWidget extends React.Component {
         }
         <div
           id={ channelId }
+          className="stream-container"
           style={ styles.stream__view }
         />
+        <div
+          className="moving-container"
+          style={ styles.moving__container }
+        >
+          { channelId }
+        </div>
       </div>
     );
   }

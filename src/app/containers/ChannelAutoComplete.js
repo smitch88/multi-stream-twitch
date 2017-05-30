@@ -103,7 +103,7 @@ class ChannelAutoComplete extends React.Component {
   }
 
   render(){
-    const { isQuerying, query, channels, count, onQuery, onSelect, onClear } = this.props;
+    const { isQuerying, query, channels, count, menuOpen, onQuery, onSelect, onClear } = this.props;
     const LeftIcon = isQuerying ? QueryIcon : SearchIcon;
     return (
       <div
@@ -121,6 +121,7 @@ class ChannelAutoComplete extends React.Component {
           onSelect={ onSelect }
           itemRenderer={ this.renderChannelListItem }
           total={ count }
+          open={ menuOpen }
         />
         { query && <ClearIcon onClick={ onClear } style={ styles.icon } /> }
       </div>

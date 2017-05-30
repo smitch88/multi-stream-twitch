@@ -8,6 +8,7 @@ const StreamsState = Record({
     w: 3,
     h: 6,
     minW: 3,
+    minH: 2,
     channelId: 'cam_zach',
     muted: true
   },
@@ -18,6 +19,7 @@ const StreamsState = Record({
     w: 3,
     h: 6,
     minW: 3,
+    minH: 2,
     channelId: 'undergroundies',
     muted: true
   },
@@ -28,11 +30,12 @@ const StreamsState = Record({
     w: 6,
     h: 6,
     minW: 3,
+    minH: 2,
     channelId: 'pixelprodotco',
     muted: true
   }],
   rowHeight: 45,
-  draggableSelector: '.stream-widget-toolbar'
+  draggableSelector: '.stream-widget-component'
 });
 
 const streamsReducer = (state = new StreamsState(), { type: actionType, ...rest }) => {

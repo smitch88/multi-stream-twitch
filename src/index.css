@@ -59,8 +59,9 @@ body, #root {
 }
 
 .react-grid-item.react-draggable-dragging {
+  position: fixed;
   transition: none;
-  z-index: 3;
+  z-index: 99999;
   will-change: transform;
 }
 
@@ -89,6 +90,19 @@ body, #root {
   background-origin: content-box;
   box-sizing: border-box;
   cursor: se-resize;
+  z-index: 2;
+}
+
+.stream-widget-component div.moving-container {
+  display: none;
+}
+
+.grid-is-moving .react-grid-item .stream-widget-component div.stream-container {
+  display: none !important;
+}
+
+.grid-is-moving .react-grid-item .stream-widget-component div.moving-container {
+  display: flex !important;
 }
 
 /*
@@ -139,7 +153,14 @@ body, #root {
   opacity: 1;
 }
 
+/*
+* Refactor these later
+*/
 
 .channel-list-item:hover {
   background-color: #dddddd;
+}
+
+.closer-component:hover svg {
+  color: #e74c3c !important;
 }
