@@ -18,8 +18,7 @@ const styles = {
     height: 'calc(100% - 25px)',
     width: '100%',
     color: theme.colors.white,
-    fontFamily: 'Roboto, sans-serif',
-    padding: 20
+    fontFamily: 'Roboto, sans-serif'
   },
   configure__error: {
     marginTop: 10,
@@ -27,6 +26,9 @@ const styles = {
     color: theme.colors.red,
     fontWeight: 500
   },
+  padding: {
+    padding: 20
+  }
 };
 
 class StreamDropZone extends React.Component {
@@ -138,14 +140,16 @@ class StreamDropZone extends React.Component {
           className="dropzone"
           style={ styles.configure__inner }
         >
-          <h3>Configure Stream</h3>
-          <p>You can enter a channel name or auto-magically drag a twitch or stream channel into this panel.</p>
-          {
-            dropzoneError &&
-              <div style={ styles.configure__error }>
-                { dropzoneError.message }
-              </div>
-          }
+          <div style={ styles.padding }>
+            <h3>Configure Stream</h3>
+            <p>You can enter a channel name or auto-magically drag a twitch or stream channel into this panel.</p>
+            {
+              dropzoneError &&
+                <div style={ styles.configure__error }>
+                  { dropzoneError.message }
+                </div>
+            }
+          </div>
         </div>
       </div>
     );

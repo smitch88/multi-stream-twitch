@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as _ from 'lodash';
-import { deleteWidget, updateWidget } from '../../common/streams/actions';
+import {
+  deleteWidget,
+  updateLayout,
+  updateWidget
+} from '../../common/streams/actions';
 import { Grid, StreamWidget } from '../components';
 
 const streamGridStyles = (offset) => ({
@@ -20,6 +24,7 @@ const StreamGrid = ({
   layout,
   offset,
   rowHeight,
+  onUpdateLayout,
   onUpdateWidget,
   onDeleteWidget
 }) => {
@@ -32,11 +37,12 @@ const StreamGrid = ({
       <Grid
         layout={ layout }
         rowHeight={ 45 }
+        onLayoutChange={ onUpdateLayout }
       >
         {
           layout.map((props, index) => (
             <StreamWidget
-              key={ index }
+              key={ props.i }
               { ...props }
               onUpdateWidget={ onUpdateWidget }
               onDeleteWidget={ onDeleteWidget }
@@ -53,6 +59,7 @@ StreamGrid.propTypes = {
   rowHeight: PropTypes.number.isRequired,
   onUpdateWidget: PropTypes.func.isRequired,
   onDeleteWidget: PropTypes.func.isRequired,
+  onUpdateLayout: PropTypes.func.isReqired,
   offset: PropTypes.number,
   draggableSelector: PropTypes.string
 };
@@ -68,6 +75,7 @@ const mapState = ({ streams }) => {
 };
 
 const mapDispatch = (dispatch) => ({
+  onUpdateLayout: _.flowRight([dispatch, updateLayout]),
   onUpdateWidget: _.flowRight([dispatch, updateWidget]),
   onDeleteWidget: _.flowRight([dispatch, deleteWidget])
 });
