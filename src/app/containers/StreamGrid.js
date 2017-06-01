@@ -24,13 +24,13 @@ const streamGridStyles = (offset) => ({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '2.25em',
+    fontSize: '2em',
     fontWeight: 300,
     color: '#aaaaaa'
   },
   no__widgets__container: {
-    height: '50%',
-    width: '50%'
+    height: '60%',
+    width: '60%'
   }
 });
 
