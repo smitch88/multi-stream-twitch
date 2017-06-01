@@ -88,14 +88,17 @@ const missingIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1c
 class ChannelAutoComplete extends React.Component {
 
   renderChannelListItem = (item, isHighlighted) => {
-    const { name, display_name, views, followers, description, logo, video_banner, url } = item;
+    const { name, display_name, views, followers, description, logo, video_banner } = item;
     return (
       <div
         key={ item.name }
         className="channel-list-item"
         style={ styles.list__item }
       >
-        <img src={ logo || video_banner || missingIcon } style={ styles.item__image } />
+        <img
+          alt="Channel logo or banner or missing icon."
+          src={ logo || video_banner || missingIcon } style={ styles.item__image }
+        />
         <div style={ styles.item__meta }>
           <h2 style={ styles.item__name }>
             { `${display_name} - ${name}`}
@@ -106,7 +109,7 @@ class ChannelAutoComplete extends React.Component {
           <p style={ styles.item__description }>{ _.truncate(description, { length: 85 }) }</p>
         </div>
       </div>
-    )
+    );
   }
 
   componentDidMount(){
@@ -138,7 +141,7 @@ class ChannelAutoComplete extends React.Component {
         />
         { query && <ClearIcon onClick={ onClear } style={ styles.icon } /> }
       </div>
-    )
+    );
   }
 }
 

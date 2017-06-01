@@ -9,7 +9,6 @@ import Tooltip from 'rc-tooltip';
 import { showHelp, hideHelp } from '../../../common/home/actions';
 import { Footer, Navbar, HelpDialog } from '../../components';
 import ChannelAutoComplete from '../ChannelAutoComplete';
-import ViewSwitcher from '../ViewSwitcher';
 import StreamGrid from '../StreamGrid';
 import theme from '../../theme';
 import styles from './styles';
@@ -23,7 +22,7 @@ const NavbarIconTooltip = (props) => {
       >
       { props.children }
     </Tooltip>
-  )
+  );
 };
 
 const NavbarActions = ({ style }) => {
@@ -70,7 +69,7 @@ const Home = ({
     <StreamGrid offset={ navbarHeight + footerHeight } />
     <Footer height={ footerHeight }>
       <div style={ styles.footer }>
-        <span style={ styles.copyright }>{ `MIT License, Copyright (c) 2017 Multi-Stream` }</span>
+        <span style={ styles.copyright }>{ 'MIT License, Copyright (c) 2017 Multi-Stream' }</span>
         <HelpDialog
           style={ styles }
           isOpen={ showingHelp }
