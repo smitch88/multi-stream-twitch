@@ -78,9 +78,16 @@ const streamsReducer = (state = new StreamsState(), action) => {
 
   switch(action.type){
 
-    case actions.UPDATE_WIDGET_LAYOUT:
-      return (
-        state.updateIn(['layout', action.i], (p) => Object.assign({}, p, action.data))
+    case actions.ADD_WIDGET:
+      return state.mergeIn(['layout', action.i], action.data);
+
+    case actions.DELETE_WIDGET:
+      return state.update('layout', (p) => p.delete(action.i));
+
+    case actions.UPDATE_WIDGET:
+      return state.updateIn(
+        ['layout', action.i],
+        (p) => Object.assign({}, p, action.data)
       );
 
     default:

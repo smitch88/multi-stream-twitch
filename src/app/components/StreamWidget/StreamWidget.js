@@ -171,6 +171,10 @@ class StreamWidget extends React.Component {
     }
   }
 
+  handleDelete = () => {
+    this.props.onDeleteWidget(this.props.i);
+  }
+
   render(){
     const { i, style, type, playerId } = this.props;
     const styles = baseStyles(style);
@@ -189,7 +193,7 @@ class StreamWidget extends React.Component {
             <WidgetToolbar
               icon={ this.toolbarIcon(type) }
               style={ styles.widget__toolbar }
-              onClose={ () => alert('TODO: Implement close handler.') }
+              onClose={ this.handleDelete }
             />
         }
         {
