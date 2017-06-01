@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import YoutubePlayerIcon from 'react-icons/lib/fa/youtube';
+import TwitchIcon from 'react-icons/lib/fa/twitch';
+import DefaultToolbarIcon from 'react-icons/lib/fa/question';
+import * as _ from 'lodash';
 import WidgetToolbar from './WidgetToolbar';
 import LoadingIndicator from '../LoadingIndicator';
+import StreamDropZone from './StreamDropZone';
 import theme from '../../theme';
 
 const baseStyles = (overrides) => ({
@@ -45,54 +50,65 @@ class StreamWidget extends React.Component {
       isReady: false
     };
     this.playerInstance = undefined;
-    this.defaultStartVolume = 0.5; // 50%
+    this.defaultStartVolume = 0.25; // 25%
   }
 
-  setupYTStream = () => {
-    const { muted } = this.props;
+  setupYTStream = (props) => {
+    const { muted, autoplay, seekTo } = props;
+
     if(muted){
       this.playerInstance.mute();
     } else {
-      this.playerInstance.unmute();
-      this.playerinstance.setVolume(this.defaultStartVolume * 100);
+      this.playerInstance.unMute();
+      this.playerInstance.setVolume(this.defaultStartVolume * 100);
+    }
+
+    if(seekTo && seekTo > 0){
+      this.playerInstance.seekTo(seekTo, true);
+    }
+
+    if(autoplay){
+      this.playerInstance.playVideo();
     }
   }
 
-  setupTwitchStream = () => {
-    const { muted } = this.props;
+  setupTwitchStream = (props) => {
+    const { muted, autoplay } = props;
     this.playerInstance.setMuted(muted);
     if(!muted){
-      this.playerinstance.setVolume(this.defaultStartVolume);
+      this.playerInstance.setVolume(this.defaultStartVolume);
     }
   }
 
-  setupChannelConfiguration = () => {
-    switch(this.props.type){
+  setupChannelConfiguration = (props) => {
+    switch(props.type){
       case 'youtube':
-        this.setupYTStream();
+        this.setupYTStream(props);
         break;
       default:
-        this.setupTwitchStream()
+        this.setupTwitchStream(props);
     }
   }
 
   delayTime(type){
     switch(type){
       case 'youtube':
+        // yt - you load so fasts!
         return 100;
       default:
         return 1500;
     }
   }
 
-  setReady = () => {
+  setReady = (props) => {
     setTimeout(() => {
-      this.setState({ isReady: true }, this.setupChannelConfiguration)
-    }, this.delayTime(this.props.type));
+      this.setState({ isReady: true }, this.setupChannelConfiguration.bind(this, props));
+    }, this.delayTime(props.type));
   }
 
-  startStream = () => {
-    const { type, channelId, videoId } = this.props;
+  startStream = (props) => {
+    const { type, channelId, videoId } = props;
+    const onReady = this.setReady.bind(this, props);
     switch(type){
       case 'youtube':
         setTimeout(() => {
@@ -100,12 +116,11 @@ class StreamWidget extends React.Component {
             height: '100%',
             width: '100%',
             videoId: videoId,
-            playerVars: { 'autoplay': 1, 'controls': 0 },
             events: {
-              onReady: this.setReady
+              onReady: onReady
             }
           });
-        }, 0);
+        }, 300);
         break;
 
       default:
@@ -115,25 +130,49 @@ class StreamWidget extends React.Component {
             height: '100%',
             channel: channelId
           });
-          this.playerInstance.addEventListener('ready', this.setReady);
+          // TODO: ensure we destory this listener
+          this.playerInstance.addEventListener('ready', onReady);
         }, 0);
     }
   }
 
+  toolbarIcon(type){
+    const baseToolbarStyle = {
+      fontSize: '1em',
+      color: theme.colors.white
+    };
+    const toolbarIcons = {
+      youtube: (
+        <YoutubePlayerIcon
+          style={ Object.assign({},theme.branding.youtube, baseToolbarStyle) }
+        />
+      ),
+      twitch: (
+        <TwitchIcon
+          style={ Object.assign({}, theme.branding.twitch, baseToolbarStyle) }
+        />
+      )
+    };
+    return toolbarIcons[type] || <DefaultToolbarIcon />;
+  }
+
   componentDidMount(){
     if(this.props.playerId){
-      this.startStream();
+      this.setState({ isReady: false }, this.startStream.bind(this, this.props));
     } else {
-      console.warn('No channel id was provided for the container');
+      console.warn('No playerId was provided for the container');
     }
   }
 
-  componentWillUnmount(){
-    console.log('Destory the mounted stream and destory playerInstance');
+  componentWillReceiveProps(newProps){
+    // Start up the stream if it was changed to a different id
+    if(newProps.playerId !== this.props.playerId){
+      this.setState({ isReady: false }, this.startStream.bind(this, newProps));
+    }
   }
 
   render(){
-    const { style, type, playerId } = this.props;
+    const { i, style, type, playerId } = this.props;
     const styles = baseStyles(style);
     return (
       <div
@@ -148,20 +187,30 @@ class StreamWidget extends React.Component {
             />
             :
             <WidgetToolbar
+              icon={ this.toolbarIcon(type) }
               style={ styles.widget__toolbar }
               onClose={ () => alert('TODO: Implement close handler.') }
             />
         }
-        <div
-          id={ playerId }
-          className="stream-container"
-          style={ styles.stream__view }
-        />
+        {
+          playerId ?
+            <div
+              id={ playerId }
+              className="stream-container"
+              style={ styles.stream__view }
+            />
+            :
+            <StreamDropZone
+              dropzoneId={ i }
+              onLoad={ () => this.setState({ isReady: true }) }
+              onDrop={ this.props.onUpdateWidget }
+            />
+        }
         <div
           className="moving-container"
           style={ styles.moving__container }
         >
-          { `${type.toUpperCase()} - ${playerId}` }
+          { type ? `${type.toUpperCase()} - ${playerId}` : 'Blank Stream' }
         </div>
       </div>
     );
@@ -169,6 +218,7 @@ class StreamWidget extends React.Component {
 }
 
 StreamWidget.propTypes = {
+  onUpdateWidget: PropTypes.func.isRequired,
   style: PropTypes.object
 };
 

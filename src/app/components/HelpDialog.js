@@ -1,7 +1,9 @@
 import React from 'react';
 import InfoIcon from 'react-icons/lib/md/info';
 import PropTypes from 'prop-types';
+import Tooltip from 'rc-tooltip';
 import TriggerDialog from './TriggerDialog';
+import theme from '../theme';
 
 const HelpDialog = ({ style, isOpen, onClose, onOpen, screenReaderHelp }) => (
   <TriggerDialog
@@ -11,10 +13,16 @@ const HelpDialog = ({ style, isOpen, onClose, onOpen, screenReaderHelp }) => (
     onClose={ onClose }
     contentLabel={ screenReaderHelp }
   >
-    <InfoIcon
-      style={ style.icon }
-      onClick={ onOpen }
-    />
+    <Tooltip
+      placement="topLeft"
+      trigger={['hover']}
+      overlay={<div style={ theme.components.tooltip }>Help</div>}
+      >
+      <InfoIcon
+        style={ style.icon }
+        onClick={ onOpen }
+      />
+    </Tooltip>
     <div style={ style.help__dialog.container }>
       <h1 style={ style.help__dialog.title }>Multi-Stream: How To</h1>
       <p style={ style.help__dialog.text }>

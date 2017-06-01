@@ -57,7 +57,27 @@ const spacing = 10;
 const theme = ({ typography: typoOverrides, colors: colorOverrides }) => ({
   typography: typography(typoOverrides),
   colors: colors(colorOverrides),
-  spacing
+  spacing,
+  branding: {
+    youtube: {
+      color: '#cc181e'
+    },
+    twitch: {
+      color: '#4b367c'
+    }
+  },
+  components: {
+    tooltip: {
+      fontFamily: 'Roboto, sans-serif',
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      width: '100%',
+      fontWeight: 400,
+      justifyContent: 'center',
+      color: defaultColorScheme.primary
+    }
+  }
 });
 
 /******************************************************************************

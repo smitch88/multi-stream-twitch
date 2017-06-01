@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as _ from 'lodash';
+import { updateWidget } from '../../common/streams/actions';
 import { Grid, StreamWidget } from '../components';
 
 const streamGridStyles = (offset) => ({
@@ -13,7 +15,7 @@ const streamGridStyles = (offset) => ({
   }
 });
 
-const StreamGrid = ({ draggableSelector, layout, offset, rowHeight }) => {
+const StreamGrid = ({ draggableSelector, layout, offset, rowHeight, onUpdateWidget }) => {
   const styles = streamGridStyles(offset);
   return (
     <div
@@ -26,7 +28,11 @@ const StreamGrid = ({ draggableSelector, layout, offset, rowHeight }) => {
       >
         {
           layout.map((props, index) => (
-            <StreamWidget key={ index } { ...props } />
+            <StreamWidget
+              key={ index }
+              { ...props }
+              onUpdateWidget={ onUpdateWidget }
+            />
           ))
         }
       </Grid>
@@ -37,8 +43,23 @@ const StreamGrid = ({ draggableSelector, layout, offset, rowHeight }) => {
 StreamGrid.propTypes = {
   layout: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
+  onUpdateWidget: PropTypes.func.isRequired,
   offset: PropTypes.number,
   draggableSelector: PropTypes.string
 };
 
-export default connect(state => state.streams.toJS())(StreamGrid);
+const mapState = ({ streams }) => {
+  // ignore OrderedMap `layout` here as Im not sure the
+  // ordering will work if we convert it to a js map first
+  const { layout: jsLayout, ...rest} = streams.toJS();
+  return {
+    layout: streams.get('layout').toArray(),
+    ...rest
+  };
+};
+
+const mapDispatch = (dispatch) => ({
+  onUpdateWidget: _.flowRight([dispatch, updateWidget])
+});
+
+export default connect(mapState, mapDispatch)(StreamGrid);

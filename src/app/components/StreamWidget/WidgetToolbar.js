@@ -7,7 +7,7 @@ const baseStyles = (overrides) => ({
   widget__toolbar: Object.assign({}, {
     display: 'inline-flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     height: 20,
     padding: '0 5px',
     backgroundColor: theme.colors.black
@@ -19,13 +19,14 @@ const baseStyles = (overrides) => ({
   },
 });
 
-const WidgetToolbar = ({ style = {}, onClose }) => {
+const WidgetToolbar = ({ style = {}, icon, onClose }) => {
   const styles = baseStyles(style);
   return (
     <div
       className="stream-widget-toolbar"
       style={ styles.widget__toolbar }
     >
+      { icon }
       {
         onClose &&
           <Closer
@@ -38,6 +39,7 @@ const WidgetToolbar = ({ style = {}, onClose }) => {
 }
 
 WidgetToolbar.propTypes = {
+  icon: PropTypes.any,
   style: PropTypes.object,
   onClose: PropTypes.func
 };
