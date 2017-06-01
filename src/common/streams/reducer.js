@@ -2,32 +2,7 @@ import * as actions from './actions';
 import { Record, OrderedMap } from 'immutable';
 
 const StreamsState = Record({
-  // mock layout for now
-  layout: OrderedMap({
-     'suraklin': {
-       i: 'suraklin',
-       x: 0,
-       y: 0,
-       w: 3,
-       h: 4,
-       minW: 3,
-       minH: 4,
-       playerId: 'suraklin',
-       channelId: 'suraklin',
-       muted: true,
-       autoplay: false,
-       type: 'twitch'
-     },
-     'widget-5': {
-       i: 'widget-5',
-       x: 6,
-       y: 6,
-       w: 6,
-       h: 6,
-       minW: 3,
-       minH: 4
-     }
-   }),
+  layout: OrderedMap(),
   rowHeight: 45,
   draggableSelector: '.stream-widget-component'
 });

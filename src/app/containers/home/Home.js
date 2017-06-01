@@ -6,6 +6,8 @@ import ClearAllIcon from 'react-icons/lib/md/clear-all';
 import MuteAllIcon from 'react-icons/lib/md/volume-mute';
 import ShuffleViewIcon from 'react-icons/lib/ti/arrow-shuffle';
 import Tooltip from 'rc-tooltip';
+import uuid from 'uuidv4';
+import { addWidget } from '../../../common/streams/actions';
 import { showHelp, hideHelp } from '../../../common/home/actions';
 import { Footer, Navbar, HelpDialog } from '../../components';
 import ChannelAutoComplete from '../ChannelAutoComplete';
@@ -25,11 +27,14 @@ const NavbarIconTooltip = (props) => {
   );
 };
 
-const NavbarActions = ({ style }) => {
+const NavbarActions = ({ style, onAddBlankWidget }) => {
   return (
     <div style={ style.navbar__actions }>
       <NavbarIconTooltip tooltip="Add Blank Panel">
-        <AddIcon style={ style.icon } />
+        <AddIcon
+          style={ style.icon }
+          onClick={ onAddBlankWidget }
+        />
       </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Change Video Quality">
         <ChangeQualityIcon style={ style.icon } />
@@ -53,7 +58,8 @@ const Home = ({
   showingHelp,
   title,
   onHideHelp,
-  onShowHelp
+  onShowHelp,
+  onAddBlankWidget
 }) => (
   <div style={ styles.container }>
     <Navbar
@@ -63,7 +69,10 @@ const Home = ({
     >
       <div style={ styles.navbar__inner }>
         <ChannelAutoComplete />
-        <NavbarActions style={ styles } />
+        <NavbarActions
+          style={ styles }
+          onAddBlankWidget={ onAddBlankWidget }
+        />
       </div>
     </Navbar>
     <StreamGrid offset={ navbarHeight + footerHeight } />
@@ -86,7 +95,11 @@ const mapState = state => state.home.toJS();
 
 const mapDispatch = dispatch => ({
   onShowHelp: () => dispatch(showHelp()),
-  onHideHelp: () => dispatch(hideHelp())
+  onHideHelp: () => dispatch(hideHelp()),
+  onAddBlankWidget: () => {
+    const i = uuid();
+    dispatch(addWidget(i, { i }));
+  }
 });
 
 export default connect(mapState, mapDispatch)(Home);

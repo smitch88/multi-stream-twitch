@@ -8,6 +8,7 @@ import {
   updateWidget
 } from '../../common/streams/actions';
 import { Grid, StreamWidget } from '../components';
+import theme from '../theme';
 
 const streamGridStyles = (offset) => ({
   grid__container: {
@@ -16,6 +17,20 @@ const streamGridStyles = (offset) => ({
     width: '100%',
     color: 'inherit',
     overflow: 'auto'
+  },
+  no__widgets: {
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '2.25em',
+    fontWeight: 300,
+    color: '#aaaaaa'
+  },
+  no__widgets__container: {
+    height: '50%',
+    width: '50%'
   }
 });
 
@@ -34,22 +49,32 @@ const StreamGrid = ({
       className="stream-grid"
       style={ styles.grid__container }
     >
-      <Grid
-        layout={ layout }
-        rowHeight={ 45 }
-        onLayoutChange={ onUpdateLayout }
-      >
-        {
-          layout.map((props, index) => (
-            <StreamWidget
-              key={ props.i }
-              { ...props }
-              onUpdateWidget={ onUpdateWidget }
-              onDeleteWidget={ onDeleteWidget }
-            />
-          ))
-        }
-      </Grid>
+    {
+      layout && layout.length > 0 ?
+        <Grid
+          layout={ layout }
+          rowHeight={ 45 }
+          onLayoutChange={ onUpdateLayout }
+        >
+          {
+            layout.map((props, index) => (
+              <StreamWidget
+                key={ props.i }
+                { ...props }
+                onUpdateWidget={ onUpdateWidget }
+                onDeleteWidget={ onDeleteWidget }
+              />
+            ))
+          }
+        </Grid>
+        :
+        <div style={ styles.no__widgets }>
+          <div style={ styles.no__widgets__container }>
+            You have added no streams. Use the autocomplete field above to find
+            a channel by name, or hit the '+' to add a new blank stream panel.
+          </div>
+        </div>
+    }
     </div>
   );
 };
