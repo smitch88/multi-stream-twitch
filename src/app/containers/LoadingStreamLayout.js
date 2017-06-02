@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { LoadingIndicator } from '../components';
 import theme from '../theme';
 import { loadSharedLayout } from '../../common/streams/actions';
+import { fromJSON } from '../../transit';
 
 const styles = {
   loading__layout: {
@@ -30,36 +31,34 @@ class LoadingStreamLayout extends React.Component {
 
   parseParamsAndUpdateLayout = () => {
     try {
-      const parsedLayout = JSON.parse(decodeURIComponent(this.props.match.params.share));
+      const parsedLayout = fromJSON(this.props.match.params.share);
       this.props.onLoadLayout(parsedLayout);
       this.props.history.replace('/', {});
     } catch (e) {
       console.error(e);
-      // failure to parse url params redirect back to home and blank layout configuration
+      // Failure to parse url params redirect back to home and blank layout configuration
       this.setState({ loading: false });
+      this.props.history.replace('/', {});
     }
   }
 
   loadConfigurationFromUrl = () => {
-    this.setState({ started: true, loading: true }, this.parseParamsAndUpdateLayout)
+    this.setState({ started: true, loading: true },
+      () => setTimeout(this.parseParamsAndUpdateLayout, 3000));
   }
 
   componentDidMount(){
     if(this.props.match.params && this.props.match.params.share){
-      setTimeout(this.loadConfigurationFromUrl, 300);
+      this.loadConfigurationFromUrl();
     }
   }
 
   render(){
-    const { started, loading } = this.state;
+    const { loading } = this.state;
     return (
       <div style={ styles.loading__layout }>
-        {
-          !started ?
-            <h1>Welcome to Multi-Stream! Loading configuration now....</h1>
-            :
-            loading && <LoadingIndicator cover={ true } color={ theme.colors.white } />
-        }
+        <h1>Welcome to Multi-Stream! Loading configuration now....</h1>
+        { loading && <LoadingIndicator cover={ true } color={ theme.colors.white } />}
       </div>
     )
   }

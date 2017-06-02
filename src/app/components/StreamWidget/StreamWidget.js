@@ -106,34 +106,46 @@ class StreamWidget extends React.Component {
     }, this.delayTime(props.type));
   }
 
+  onStartError = (errorMessage) => {
+    this.setState({ isReady: true });
+  }
+
   startStream = (props) => {
     const { type, channelId, videoId } = props;
     const onReady = this.setReady.bind(this, props);
     switch(type){
       case 'youtube':
         setTimeout(() => {
-          this.playerInstance = new window.YT.Player(videoId, {
-            height: '100%',
-            width: '100%',
-            videoId: videoId,
-            events: {
-              onReady: onReady
-            }
-          });
+          try {
+            this.playerInstance = new window.YT.Player(videoId, {
+              height: '100%',
+              width: '100%',
+              videoId: videoId,
+              events: {
+                onReady: onReady
+              }
+            });
+          } catch (e){
+            this.startError('Failed to start youtube stream.');
+          }
         }, 300);
         break;
 
       default:
         setTimeout(() => {
-          this.playerInstance = new window.Twitch.Player(channelId, {
-            width: '100%',
-            height: '100%',
-            channel: channelId
-          });
-          // TODO: ensure we destory this listener
-          this.playerInstance.addEventListener('ready', onReady);
+          try {
+            this.playerInstance = new window.Twitch.Player(channelId, {
+              width: '100%',
+              height: '100%',
+              channel: channelId
+            });
+            // TODO: ensure we destory this listener
+            this.playerInstance.addEventListener('ready', onReady);
+          } catch(e){
+            this.startError('Failed to start twitch stream.');
+          }
         }, 0);
-    }
+      }
   }
 
   toolbarIcon(type){
@@ -184,18 +196,17 @@ class StreamWidget extends React.Component {
         style={ styles.widget__container }
       >
         {
-          !this.state.isReady ?
+          !this.state.isReady &&
             <LoadingIndicator
               name="ball-scale-ripple-multiple"
               cover={ true }
             />
-            :
-            <WidgetToolbar
-              icon={ this.toolbarIcon(type) }
-              style={ styles.widget__toolbar }
-              onClose={ this.handleDelete }
-            />
         }
+        <WidgetToolbar
+          icon={ this.toolbarIcon(type) }
+          style={ styles.widget__toolbar }
+          onClose={ this.handleDelete }
+        />
         {
           playerId ?
             <div
