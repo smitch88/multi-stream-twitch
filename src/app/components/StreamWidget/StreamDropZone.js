@@ -18,7 +18,8 @@ const styles = {
     height: 'calc(100% - 25px)',
     width: '100%',
     color: theme.colors.white,
-    fontFamily: 'Roboto, sans-serif'
+    fontFamily: 'Roboto, sans-serif',
+    overflowY: 'auto'
   },
   configure__error: {
     marginTop: 10,
@@ -94,7 +95,7 @@ class StreamDropZone extends React.Component {
     } else {
       console.warn('Invalid URL was dragged into dropzone container.');
       this.setState({
-        dropzoneError: new Error('Invalid URL dropped. Pleaes try a youtube or twitch stream.')
+        dropzoneError: new Error(`Invalid URL dropped "${streamUrlDropped}". Please try a youtube or twitch stream.`)
       });
     }
   }

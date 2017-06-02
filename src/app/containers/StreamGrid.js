@@ -41,7 +41,8 @@ const StreamGrid = ({
   rowHeight,
   onUpdateLayout,
   onUpdateWidget,
-  onDeleteWidget
+  onDeleteWidget,
+  scrollTo
 }) => {
   const styles = streamGridStyles(offset);
   return (
@@ -55,6 +56,7 @@ const StreamGrid = ({
           layout={ layout }
           rowHeight={ 45 }
           onLayoutChange={ onUpdateLayout }
+          scrollToElement={ `stream_widget_${scrollTo}` }
         >
           {
             layout.map((props, index) => (
@@ -86,7 +88,8 @@ StreamGrid.propTypes = {
   onDeleteWidget: PropTypes.func.isRequired,
   onUpdateLayout: PropTypes.func.isRequired,
   offset: PropTypes.number,
-  draggableSelector: PropTypes.string
+  draggableSelector: PropTypes.string,
+  scrollTo: PropTypes.string
 };
 
 const mapState = ({ streams }) => {

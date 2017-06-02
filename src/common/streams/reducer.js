@@ -6,7 +6,8 @@ import * as _ from 'lodash';
 const StreamsState = Record({
   layout: Map(),
   rowHeight: 45,
-  draggableSelector: '.stream-widget-component'
+  draggableSelector: '.stream-widget-component',
+  scrollTo: ''
 }, 'streams');
 
 const streamsReducer = (state = new StreamsState(), action) => {
@@ -14,7 +15,8 @@ const streamsReducer = (state = new StreamsState(), action) => {
   switch(action.type){
 
     case actions.ADD_WIDGET:
-      return state.mergeIn(['layout', action.i], action.data);
+      return state.set('scrollTo', action.i)
+                  .mergeIn(['layout', action.i], action.data);
 
     case actions.CLEAR_LAYOUT:
       return state.set('layout', Map());

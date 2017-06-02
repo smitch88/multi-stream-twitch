@@ -192,6 +192,7 @@ class StreamWidget extends React.Component {
     const styles = baseStyles(style);
     return (
       <div
+        id={ `stream_widget_${i}` }
         className="stream-widget-component"
         style={ styles.widget__container }
       >

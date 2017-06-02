@@ -88,6 +88,18 @@ class Grid extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps){
+    if(this.props.scrollToElement !== prevProps.scrollToElement){
+      const elementToScrollTo = document.getElementById(this.props.scrollToElement);
+      if(elementToScrollTo){
+        elementToScrollTo.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  }
+
   componentWillUnmount(){
     window.removeEventListener('resize', this.handleResizeMovement);
   }
