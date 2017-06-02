@@ -1,15 +1,15 @@
 import * as actions from './actions';
-import { Record } from 'immutable';
+import { Record } from '../../transit';
 
-const ChannelsState = Record({
+export const ChannelsState = Record({
   isQuerying: false,
   query: '',
   channels: [],
   count: 0,
   error: undefined
-});
+}, 'channels');
 
-const channelsReducer = (state = new ChannelsState(), action) => {
+export const channelsReducer = (state = new ChannelsState(), action) => {
 
   switch(action.type){
 
@@ -40,5 +40,3 @@ const channelsReducer = (state = new ChannelsState(), action) => {
       return state;
   }
 };
-
-export default channelsReducer;

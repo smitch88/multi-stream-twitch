@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import { all } from 'redux-saga/effects';
 import homeReducer from './home/reducer';
+import { homeShareSaga } from './home/sagas';
 import streamsReducer from './streams/reducer';
-import channelsReducer from './channels/reducer';
+import { channelsReducer } from './channels/reducer';
 import { queryChannelsSaga } from './channels/sagas';
 
 const reducer = combineReducers({
@@ -13,7 +14,8 @@ const reducer = combineReducers({
 
 const rootSaga = function*() {
   yield all([
-    queryChannelsSaga()
+    queryChannelsSaga(),
+    homeShareSaga()
   ])
 }
 

@@ -8,8 +8,13 @@ import ShuffleViewIcon from 'react-icons/lib/ti/arrow-shuffle';
 import Tooltip from 'rc-tooltip';
 import uuid from 'uuidv4';
 import { addWidget } from '../../../common/streams/actions';
-import { showHelp, hideHelp } from '../../../common/home/actions';
-import { Footer, Navbar, HelpDialog } from '../../components';
+import {
+  showHelp,
+  hideHelp,
+  showShareableLink,
+  hideShareableLink
+} from '../../../common/home/actions';
+import { Footer, Navbar, HelpDialog, ShareableLinkDialog } from '../../components';
 import ChannelAutoComplete from '../ChannelAutoComplete';
 import StreamGrid from '../StreamGrid';
 import theme from '../../theme';
@@ -36,14 +41,14 @@ const NavbarActions = ({ style, onAddBlankWidget }) => {
           onClick={ onAddBlankWidget }
         />
       </NavbarIconTooltip>
+      <NavbarIconTooltip tooltip="Remove All">
+        <ClearAllIcon style={ style.icon } />
+      </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Change Video Quality">
         <ChangeQualityIcon style={ style.icon } />
       </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Mute All">
         <MuteAllIcon style={ style.icon } />
-      </NavbarIconTooltip>
-      <NavbarIconTooltip tooltip="Remove All">
-        <ClearAllIcon style={ style.icon } />
       </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Shuffle View">
         <ShuffleViewIcon style={ style.icon } />
@@ -57,9 +62,15 @@ const Home = ({
   navbarHeight,
   showingHelp,
   title,
+  layout,
+  showingShareLink,
+  shortUrl,
   onHideHelp,
   onShowHelp,
-  onAddBlankWidget
+  onHideShare,
+  onShowShare,
+  onAddBlankWidget,
+  params
 }) => (
   <div style={ styles.container }>
     <Navbar
@@ -79,23 +90,38 @@ const Home = ({
     <Footer height={ footerHeight }>
       <div style={ styles.footer }>
         <span style={ styles.copyright }>{ 'MIT License, Copyright (c) 2017 Multi-Stream' }</span>
-        <HelpDialog
-          style={ styles }
-          isOpen={ showingHelp }
-          onClose={ onHideHelp }
-          onOpen={ onShowHelp }
-          screenReaderHelp="Multi-Stream How To Guide"
-        />
+        <div style={ styles.footer__links }>
+          <HelpDialog
+            isOpen={ showingHelp }
+            onClose={ onHideHelp }
+            onOpen={ onShowHelp }
+            screenReaderHelp="Multi-Stream How To Guide"
+          />
+          <ShareableLinkDialog
+            isOpen={ showingShareLink }
+            onClose={ onHideShare }
+            onOpen={ onShowShare.bind(this, layout) }
+            screenReaderHelp="Shareable Link"
+            shareableLink={ shortUrl }
+          />
+        </div>
       </div>
     </Footer>
   </div>
 );
 
-const mapState = state => state.home.toJS();
+const mapState = state => {
+  return {
+    ...state.home.toJS(),
+    layout: state.streams.layout.toJSON()
+  };
+}
 
 const mapDispatch = dispatch => ({
   onShowHelp: () => dispatch(showHelp()),
   onHideHelp: () => dispatch(hideHelp()),
+  onShowShare: (layout) => dispatch(showShareableLink(layout)),
+  onHideShare: () => dispatch(hideShareableLink()),
   onAddBlankWidget: () => {
     const i = uuid();
     dispatch(addWidget(i, { i }));

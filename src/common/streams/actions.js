@@ -1,18 +1,18 @@
 import * as _ from 'lodash';
+import { fromJS, Map, Seq } from 'immutable';
+
+export const LOAD_SHARED_LAYOUT = 'LOAD_SHARED_LAYOUT';
+
+export const loadSharedLayout = (layout) => ({
+  type: LOAD_SHARED_LAYOUT,
+  data: fromJS(layout)
+});
 
 export const UPDATE_LAYOUT = 'UPDATE_LAYOUT';
 
-const indexByWidgetId = (widgets) => (
-  _.reduce(widgets, (acc, widget) => {
-    acc[widget.i] = widget;
-    return acc;
-  }, {})
-);
-
-export const updateLayout = (updatedLayout, allLayouts) => ({
+export const updateLayout = (widgets, _) => ({
   type: UPDATE_LAYOUT,
-  // We convert the updatedLayout array into a map here so we can do an easy merge
-  updatedLayout: indexByWidgetId(updatedLayout)
+  data: fromJS(widgets)
 });
 
 export const ADD_WIDGET = 'ADD_WIDGET';
@@ -21,26 +21,31 @@ export const DELETE_WIDGET = 'DELETE_WIDGET';
 
 // Incoming `data` does not have grid coordinates so we merge in x, y, h, w, minH, minW
 
-const generateWidgetInstance = (data) => ({
-  ...data,
-  x: 0,
-  y: 0,
-  w: 6,
-  h: 6,
-  minW: 3,
-  minH: 4
-});
+const generateWidgetInstance = (data) => (
+  Map({
+    ...data,
+    x: 0,
+    y: Infinity,
+    w: 6,
+    h: 6,
+    minW: 3,
+    minH: 4,
+    maxW: 12,
+    maxH: 12,
+    static: false
+  })
+);
 
 export const addWidget = (i, data) => ({
   type: ADD_WIDGET,
   i,
-  data: generateWidgetInstance(data)
+  data: fromJS(generateWidgetInstance(data))
 });
 
 export const updateWidget = (i, data) => ({
   type: UPDATE_WIDGET,
   i,
-  data
+  data: fromJS(data)
 });
 
 export const deleteWidget = (i) => ({

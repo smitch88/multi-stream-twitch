@@ -84,8 +84,6 @@ class Grid extends React.Component {
 
   handleLayoutChange = (currentLayout, allLayouts) => {
     if(this.props.onLayoutChange){
-      // Communicate externally and respond w/ new layout after changes occurred
-      console.log('layout changed, passing to callback', currentLayout, allLayouts);
       this.props.onLayoutChange(currentLayout);
     }
   }

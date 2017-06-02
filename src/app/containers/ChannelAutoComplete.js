@@ -4,6 +4,7 @@ import Color from 'color';
 import SearchIcon from 'react-icons/lib/md/search';
 import ClearIcon from 'react-icons/lib/md/clear';
 import QueryIcon from 'react-icons/lib/md/query-builder';
+import uuid from 'uuidv4';
 import missingIcon from './MissingIcon';
 import { clearChannelQuery, queryChannels } from '../../common/channels/actions';
 import { addWidget } from '../../common/streams/actions';
@@ -150,15 +151,16 @@ const mapState = ({ channels }) => channels.toJS();
 const mapDispatch = (dispatch) => ({
   onQuery: (event, query) => dispatch(queryChannels(query)),
   onClear: () => dispatch(clearChannelQuery()),
-  onSelect: (i, item) => {
+  onSelect: (id, item) => {
     // TODO: Remove hardcodedness for `onSelect` when we implement a tabbed
     // interface for other streams apart from twitch
     const type = 'twitch';
     const dynamicAttribute = type === 'twitch' ? 'channelId' : 'videoId';
-    dispatch(addWidget(i, {
-      i,
-      playerId: i,
-      [dynamicAttribute]: i,
+    const generatedId = uuid();
+    dispatch(addWidget(generatedId, {
+      i: generatedId,
+      playerId: id,
+      [dynamicAttribute]: id,
       muted: true,
       autoplay: false,
       type,

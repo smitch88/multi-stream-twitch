@@ -1,16 +1,3 @@
 {
-  "parser": "babel-eslint",
-  "rules": {
-      "linebreak-style": [
-          "error"
-      ],
-      "quotes": [
-          "error",
-          "single"
-      ],
-      "semi": [
-          "error",
-          "always"
-      ]
-  }
+  "parser": "babel-eslint"
 }

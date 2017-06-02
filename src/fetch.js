@@ -1,5 +1,8 @@
 import fetch from 'isomorphic-fetch';
-import { TWITCH_API_KEY } from './secrets';
+import {
+  GOOGLE_URL_SHORTENER_API_KEY,
+  TWITCH_API_KEY
+} from './secrets';
 
 export const REQUEST_TIMEOUT_MS = 30000;
 
@@ -65,4 +68,16 @@ export function* twitchRequest(url, requestParams) {
     requestHeaders.headers['Content-Type'] = 'application/json';
   }
   return yield request(url, requestHeaders);
+}
+
+export function* googleShortenerRequest(url, data) {
+  const requestHeaders = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  };
+  return yield request(`${url}?key=${GOOGLE_URL_SHORTENER_API_KEY}`, requestHeaders);
 }

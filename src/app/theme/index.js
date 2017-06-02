@@ -26,7 +26,7 @@ const colors = (overrides) => defaultColorScheme;
 * TYPOGRAPHY
 *******************************************************************************/
 
-const defaultFonts = 'Roboto, HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif'
+const defaultFonts = 'Roboto, HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif';
 
 const typography = (overrides) => ({
   base: {

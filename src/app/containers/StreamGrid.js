@@ -84,17 +84,15 @@ StreamGrid.propTypes = {
   rowHeight: PropTypes.number.isRequired,
   onUpdateWidget: PropTypes.func.isRequired,
   onDeleteWidget: PropTypes.func.isRequired,
-  onUpdateLayout: PropTypes.func.isReqired,
+  onUpdateLayout: PropTypes.func.isRequired,
   offset: PropTypes.number,
   draggableSelector: PropTypes.string
 };
 
 const mapState = ({ streams }) => {
-  // ignore OrderedMap `layout` here as Im not sure the
-  // ordering will work if we convert it to a js map first
-  const { layout: jsLayout, ...rest} = streams.toJS();
+  const { layout, ...rest} = streams.toJS();
   return {
-    layout: streams.get('layout').toArray(),
+    layout: _.values(layout),
     ...rest
   };
 };

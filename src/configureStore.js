@@ -1,6 +1,25 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import localForage from 'localforage';
+import { autoRehydrate, createTransform, persistStore } from 'redux-persist';
 import { reducer, rootSaga } from './common/';
+import { ChannelsState as ChannelsRecord } from './common/channels/reducer';
+import { toJSON, fromJSON } from './transit';
+
+/*
+* Returns a `createTransform` definition to serialize/deserialize state, uses localForage for
+* local persistance so this could be going to indexeddb or localStorage.
+* Ref:
+* https://github.com/rt2zz/redux-persist-transform-immutable/blob/master/index.js
+*/
+
+const transitTransform = (config) => (
+  createTransform(
+    (state, key) => toJSON(state),
+    (raw, key) => fromJSON(raw),
+    config
+  )
+);
 
 /*
 * Enhancers
@@ -20,8 +39,22 @@ const composeEnhancers =
 const configureStore = () => {
 
   const sagaMiddleware = createSagaMiddleware();
-  const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+  const enhancer = composeEnhancers(
+    applyMiddleware(sagaMiddleware),
+    autoRehydrate()
+  );
   const store = createStore(reducer, enhancer);
+
+  // Persist store periodically, added transforms definition for our immutable store
+  const persistConfig = {
+    transforms: [transitTransform()],
+    storage: localForage,
+    debounce: 100,
+    keyPrefix: 'multi-stream@' + window.location.hostname
+  };
+
+  // Auto-magically persist to some local store - `localForage` is picking for us here
+  persistStore(store, persistConfig);
 
   // Start root generator for concurrent processes
   sagaMiddleware.run(rootSaga);

@@ -1,33 +1,35 @@
 import * as actions from './actions';
-import { Record, OrderedMap } from 'immutable';
+import { Map } from 'immutable';
+import { Record } from '../../transit';
+import * as _ from 'lodash';
 
 const StreamsState = Record({
-  layout: OrderedMap(),
+  layout: Map(),
   rowHeight: 45,
   draggableSelector: '.stream-widget-component'
-});
-
-// Merge helper for js objects
-const merger = (o, n) => Object.assign({}, o, n);
+}, 'streams');
 
 const streamsReducer = (state = new StreamsState(), action) => {
 
   switch(action.type){
 
-    case actions.UPDATE_LAYOUT:
-      return state.update('layout', (v) => v.mergeWith(merger, action.updatedLayout));
+    case actions.LOAD_SHARED_LAYOUT:
+      return state.set('layout', action.data);
 
     case actions.ADD_WIDGET:
-      return state.setIn(['layout', action.i], action.data);
+      return state.mergeIn(['layout', action.i], action.data);
 
-    case actions.DELETE_WIDGET:
-      return state.update('layout', (v) => v.delete(action.i));
+    case actions.UPDATE_LAYOUT:
+      return (
+        state.update('layout',
+          (m) => action.data.reduce((acc, v) => acc.mergeIn([v.get('i')], v), m))
+        );
 
     case actions.UPDATE_WIDGET:
-      return state.updateIn(
-        ['layout', action.i],
-        (v) => Object.assign({}, v, action.data)
-      );
+      return state.updateIn(['layout', action.i], (m) => m.merge(action.data));
+
+    case actions.DELETE_WIDGET:
+      return state.update('layout', (m) => m.delete(action.i));
 
     default:
       return state;
