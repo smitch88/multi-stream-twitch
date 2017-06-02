@@ -8,8 +8,8 @@ any amount of windows in the browser.
 
 ##### Examples to check out for inspiration
 * http://kadgar.net/live/
-* multitwitch.tv
-* kbmod multistream
+* http://multitwitch.tv/
+* https://multistre.am/
 
 ##### Improvements/Feature list
 1. Select X amount of streams by channel name to put into a configurable grid display
