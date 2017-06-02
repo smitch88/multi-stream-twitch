@@ -7,7 +7,7 @@ import MuteAllIcon from 'react-icons/lib/md/volume-mute';
 import ShuffleViewIcon from 'react-icons/lib/ti/arrow-shuffle';
 import Tooltip from 'rc-tooltip';
 import uuid from 'uuidv4';
-import { addWidget } from '../../../common/streams/actions';
+import { addWidget, clearLayout } from '../../../common/streams/actions';
 import {
   showHelp,
   hideHelp,
@@ -32,7 +32,11 @@ const NavbarIconTooltip = (props) => {
   );
 };
 
-const NavbarActions = ({ style, onAddBlankWidget }) => {
+const NavbarActions = ({
+  style,
+  onAddBlankWidget,
+  onClearAllWidgets
+}) => {
   return (
     <div style={ style.navbar__actions }>
       <NavbarIconTooltip tooltip="Add Blank Panel">
@@ -42,7 +46,10 @@ const NavbarActions = ({ style, onAddBlankWidget }) => {
         />
       </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Remove All">
-        <ClearAllIcon style={ style.icon } />
+        <ClearAllIcon
+          style={ style.icon }
+          onClick={ onClearAllWidgets }
+        />
       </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Change Video Quality">
         <ChangeQualityIcon style={ style.icon } />
@@ -70,7 +77,7 @@ const Home = ({
   onHideShare,
   onShowShare,
   onAddBlankWidget,
-  params
+  onClearAllWidgets
 }) => (
   <div style={ styles.container }>
     <Navbar
@@ -83,6 +90,7 @@ const Home = ({
         <NavbarActions
           style={ styles }
           onAddBlankWidget={ onAddBlankWidget }
+          onClearAllWidgets={ onClearAllWidgets }
         />
       </div>
     </Navbar>
@@ -125,7 +133,8 @@ const mapDispatch = dispatch => ({
   onAddBlankWidget: () => {
     const i = uuid();
     dispatch(addWidget(i, { i }));
-  }
+  },
+  onClearAllWidgets: () => dispatch(clearLayout())
 });
 
 export default connect(mapState, mapDispatch)(Home);

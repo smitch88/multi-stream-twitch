@@ -15,32 +15,33 @@ export const updateLayout = (widgets, _) => ({
   data: fromJS(widgets)
 });
 
+export const CLEAR_LAYOUT = 'CLEAR_LAYOUT';
+
+export const clearLayout = () => ({
+  type: CLEAR_LAYOUT
+});
+
 export const ADD_WIDGET = 'ADD_WIDGET';
 export const UPDATE_WIDGET = 'UPDATE_WIDGET';
 export const DELETE_WIDGET = 'DELETE_WIDGET';
 
-// Incoming `data` does not have grid coordinates so we merge in x, y, h, w, minH, minW
-
 const baseFields = ['i', 'autoplay', 'muted', 'type', 'name', 'playerId', 'channelId', 'videoId'];
 const twitchFields = ['display_name', 'followers', 'views'];
 
-const generateWidgetInstance = (data) => {
-  console.log(data);
-  return (
-    Map({
-      ...(_.pick(data, baseFields)),
-      x: 0,
-      y: Infinity,
-      w: 6,
-      h: 6,
-      minW: 3,
-      minH: 4,
-      maxW: 12,
-      maxH: 12,
-      static: false
-    })
-  )
-};
+const generateWidgetInstance = (data) => (
+  Map({
+    ...(_.pick(data, baseFields)),
+    x: 0,
+    y: Infinity,
+    w: 6,
+    h: 6,
+    minW: 3,
+    minH: 4,
+    maxW: 12,
+    maxH: 12,
+    static: false
+  })
+);
 
 export const addWidget = (i, data) => ({
   type: ADD_WIDGET,

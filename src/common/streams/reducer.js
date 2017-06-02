@@ -13,11 +13,17 @@ const streamsReducer = (state = new StreamsState(), action) => {
 
   switch(action.type){
 
-    case actions.LOAD_SHARED_LAYOUT:
-      return state.set('layout', action.data);
-
     case actions.ADD_WIDGET:
       return state.mergeIn(['layout', action.i], action.data);
+
+    case actions.CLEAR_LAYOUT:
+      return state.set('layout', Map());
+
+    case actions.DELETE_WIDGET:
+      return state.update('layout', (m) => m.delete(action.i));
+
+    case actions.LOAD_SHARED_LAYOUT:
+      return state.set('layout', action.data);
 
     case actions.UPDATE_LAYOUT:
       return (
@@ -27,9 +33,6 @@ const streamsReducer = (state = new StreamsState(), action) => {
 
     case actions.UPDATE_WIDGET:
       return state.updateIn(['layout', action.i], (m) => m.merge(action.data));
-
-    case actions.DELETE_WIDGET:
-      return state.update('layout', (m) => m.delete(action.i));
 
     default:
       return state;
