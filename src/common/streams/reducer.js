@@ -15,15 +15,13 @@ const streamsReducer = (state = new StreamsState(), action) => {
   switch(action.type){
 
     case actions.MUTE_ALL_WIDGETS:
-      console.log(
-        state.update('layout', (m) => (
-          m.map((key, value) => {
-            console.log('iterating over widgets', key, value.toJS());
-            return value;
+      return (
+        state.update('layout', (layout) => (
+          layout.map(m => {
+            return m.set('muted', true);
           })
         ))
-      )
-      return state;
+      );
 
     case actions.ADD_WIDGET:
       return state.set('scrollTo', action.i)
@@ -33,7 +31,7 @@ const streamsReducer = (state = new StreamsState(), action) => {
       return state.set('layout', Map());
 
     case actions.DELETE_WIDGET:
-      return state.update('layout', (m) => m.delete(action.i));
+      return state.update('layout', (layout) => layout.delete(action.i));
 
     case actions.LOAD_SHARED_LAYOUT:
       return state.set('layout', action.data);
@@ -41,7 +39,7 @@ const streamsReducer = (state = new StreamsState(), action) => {
     case actions.UPDATE_LAYOUT:
       return (
         state.update('layout',
-          (m) => action.data.reduce((acc, v) => acc.mergeIn([v.get('i')], v), m))
+          (layout) => action.data.reduce((acc, v) => acc.mergeIn([v.get('i')], v), layout))
         );
 
     case actions.UPDATE_WIDGET:

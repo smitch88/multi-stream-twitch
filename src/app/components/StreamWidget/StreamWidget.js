@@ -51,6 +51,7 @@ class StreamWidget extends React.Component {
     };
     this.playerInstance = undefined;
     this.defaultStartVolume = 0.25; // 25%
+    this.playerInstanceEl = undefined;
   }
 
   setupYTStream = (props) => {
@@ -140,8 +141,8 @@ class StreamWidget extends React.Component {
               height: '100%',
               channel: channelId
             });
-            // TODO: ensure we destory this listener
             this.playerInstance.addEventListener('ready', onReady);
+
           } catch(e){
             console.error(e);
             this.onStartError('Failed to start twitch stream.');
@@ -233,6 +234,7 @@ class StreamWidget extends React.Component {
           playerId ?
             <div
               id={ playerId }
+              ref={ (el) => { this.playerInstanceEl = el; }}
               className="stream-container"
               style={ styles.stream__view }
             />
