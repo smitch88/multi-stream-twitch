@@ -31,14 +31,14 @@ const baseFields = ['i', 'autoplay', 'muted', 'type', 'name', 'playerId', 'chann
 const generateWidgetInstance = (data) => (
   Map({
     ...(_.pick(data, baseFields)),
-    x: 0,
-    y: Infinity,
+    x: _.get(data, 'x', 0),
+    y: _.get(data, 'y', Infinity),
     w: 6,
     h: 10,
     minW: 3,
     minH: 4,
     maxW: 12,
-    maxH: 12,
+    maxH: 24,
     static: false
   })
 );

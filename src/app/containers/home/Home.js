@@ -22,6 +22,7 @@ import ChannelAutoComplete from '../ChannelAutoComplete';
 import StreamGrid from '../StreamGrid';
 import theme from '../../theme';
 import styles from './styles';
+import { getPackedPosition } from '../../../common/packer';
 
 const NavbarIconTooltip = (props) => {
   return (
@@ -99,7 +100,7 @@ const Home = ({
         <ChannelAutoComplete />
         <NavbarActions
           style={ styles }
-          onAddBlankWidget={ onAddBlankWidget }
+          onAddBlankWidget={ onAddBlankWidget.bind(this, layout) }
           onClearAllWidgets={ onClearAllWidgets }
           onMuteAllWidgets={ onMuteAllWidgets }
         />
@@ -141,9 +142,9 @@ const mapDispatch = dispatch => ({
   onHideHelp: () => dispatch(hideHelp()),
   onShowShare: (layout) => dispatch(showShareableLink(layout)),
   onHideShare: () => dispatch(hideShareableLink()),
-  onAddBlankWidget: () => {
+  onAddBlankWidget: (layout) => {
     const i = uuid();
-    dispatch(addWidget(i, { i }));
+    dispatch(addWidget(i, { i, ...getPackedPosition(layout) }));
   },
   onClearAllWidgets: () => dispatch(clearLayout()),
   onMuteAllWidgets: () => dispatch(muteAllWidgets())

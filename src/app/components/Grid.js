@@ -39,6 +39,7 @@ class Grid extends React.Component {
       draggableSelector: '.grid-item-component',
       isMoving: false
     };
+    this.debugIds = false;
     // Maps directly to https://github.com/STRML/react-grid-layout#responsive-grid-layout-props
     this.state = Object.assign({}, this.defaults, props);
   }
@@ -61,6 +62,7 @@ class Grid extends React.Component {
         className="grid-item-component"
         style={ styles.grid__item }
       >
+        { this.debugIds && child.props.i }
         { child }
       </div>
     ))
@@ -89,12 +91,13 @@ class Grid extends React.Component {
   }
 
   componentDidUpdate(prevProps){
+    // Scroll to newly added elements by id from `scrollToElement` reference
     if(this.props.scrollToElement !== prevProps.scrollToElement){
       const elementToScrollTo = document.getElementById(this.props.scrollToElement);
       if(elementToScrollTo){
         elementToScrollTo.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'end'
         });
       }
     }
