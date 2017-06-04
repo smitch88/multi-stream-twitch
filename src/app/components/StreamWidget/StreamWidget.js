@@ -126,7 +126,8 @@ class StreamWidget extends React.Component {
               }
             });
           } catch (e){
-            this.startError('Failed to start youtube stream.');
+            console.error(e);
+            this.onStartError('Failed to start youtube stream.');
           }
         }, 300);
         break;
@@ -142,7 +143,8 @@ class StreamWidget extends React.Component {
             // TODO: ensure we destory this listener
             this.playerInstance.addEventListener('ready', onReady);
           } catch(e){
-            this.startError('Failed to start twitch stream.');
+            console.error(e);
+            this.onStartError('Failed to start twitch stream.');
           }
         }, 0);
       }
@@ -168,6 +170,28 @@ class StreamWidget extends React.Component {
     return toolbarIcons[type] || <DefaultToolbarIcon />;
   }
 
+  handleDelete = () => {
+    this.props.onDeleteWidget(this.props.i);
+  }
+
+  handleChangeChannel = () => {
+    this.props.onUpdateWidget(this.props.i, {
+      type: '',
+      playerId: '',
+      channelId: ''
+    });
+  }
+
+  handleChannelInputChanged = (channelInput) => {
+    const { i, type } = this.props;
+    // Normalize inputs into onUpdateWidget which requires a format of <id>,<data>
+    this.props.onUpdateWidget(this.props.i, {
+      type: 'twitch',
+      playerId: channelInput,
+      channelId: channelInput
+    });
+  }
+
   componentDidMount(){
     if(this.props.playerId){
       this.setState({ isReady: false }, this.startStream.bind(this, this.props));
@@ -181,10 +205,6 @@ class StreamWidget extends React.Component {
     if(newProps.playerId !== this.props.playerId){
       this.setState({ isReady: false }, this.startStream.bind(this, newProps));
     }
-  }
-
-  handleDelete = () => {
-    this.props.onDeleteWidget(this.props.i);
   }
 
   render(){
@@ -207,6 +227,7 @@ class StreamWidget extends React.Component {
           icon={ this.toolbarIcon(type) }
           style={ styles.widget__toolbar }
           onClose={ this.handleDelete }
+          onChange={ this.handleChangeChannel }
         />
         {
           playerId ?
@@ -217,9 +238,10 @@ class StreamWidget extends React.Component {
             />
             :
             <StreamDropZone
-              dropzoneId={ i }
+              id={ i }
               onLoad={ () => this.setState({ isReady: true }) }
               onDrop={ this.props.onUpdateWidget }
+              onChannelSelected={ this.handleChannelInputChanged }
             />
         }
         <div

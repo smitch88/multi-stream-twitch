@@ -13,7 +13,7 @@ const emptySuccess = put({
 /*
 * Given a `query` string query the TWITCH api for any channels that match up to
 * 100 results (this is the max it will allow to return).
-* This has a built in `delay` since it can be used for `autocompletion` and 
+* This has a built in `delay` since it can be used for `autocompletion` and
 * we do not want it to fire on every keystroke necessarily. We want the queries
 * to be cancelled.
 */

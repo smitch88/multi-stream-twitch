@@ -81,7 +81,7 @@ const Home = ({
 }) => (
   <div style={ styles.container }>
     <Navbar
-      title={ title }
+      title="Multi-Stream"
       height={ navbarHeight }
       style={ styles.navbar }
     >

@@ -1,5 +1,5 @@
 import AutoComplete from './AutoComplete';
-import Closer from './Closer';
+import Closer from './buttons/Closer';
 import Footer from './Footer';
 import Grid from './Grid';
 import HelpDialog from './dialogs/HelpDialog';

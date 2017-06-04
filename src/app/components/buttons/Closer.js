@@ -1,7 +1,8 @@
 import React from 'react';
 import CloseIcon from 'react-icons/lib/md/close';
 import PropTypes from 'prop-types';
-import theme from '../theme';
+import Tooltip from 'rc-tooltip';
+import theme from '../../theme';
 
 const defaultCloserStyles = {
   container: {
@@ -27,7 +28,13 @@ const Closer = ({ style = {}, onClose }) => {
       style={ styles.container }
       onClick={ onClose }
     >
-      <CloseIcon style={ styles.icon } />
+      <Tooltip
+        placement="top"
+        trigger={['hover']}
+        overlay={<div style={ theme.components.tooltip }>Remove</div>}
+      >
+        <CloseIcon style={ styles.icon } />
+      </Tooltip>
     </div>
   );
 };

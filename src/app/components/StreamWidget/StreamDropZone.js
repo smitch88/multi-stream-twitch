@@ -1,4 +1,7 @@
 import React from 'react';
+import CheckIcon from 'react-icons/lib/md/check';
+import PropTypes from 'prop-types';
+import uuid from 'uuidv4';
 import theme from '../../theme';
 
 /*
@@ -29,6 +32,32 @@ const styles = {
   },
   padding: {
     padding: 20
+  },
+  input__container: {
+    display: 'inline-flex',
+    marginTop: theme.spacing,
+    height: 32,
+    width: '100%',
+    border: '1px solid #333333',
+    maxWidth: 300
+  },
+  manual__input: {
+    height: '100%',
+    width: 'calc(100% - 50px)',
+    padding: '0 10px',
+    border: 'none',
+    outline: 'none'
+  },
+  button: {
+    cursor: 'pointer',
+    height: '100%',
+    width: 50,
+    backgroundColor: theme.colors.primary,
+    border: 'none'
+  },
+  icon: {
+    fontSize: '1.2em',
+    color: theme.colors.white
   }
 };
 
@@ -41,13 +70,17 @@ class StreamDropZone extends React.Component {
       youtube: /https:\/\/www.(youtube).com\/.+v=(.+)/ig,
       twitch: /https:\/\/www.(twitch).tv\/(.+)/ig
     };
+    this.configurationHelp = (
+      'You can enter a channel name or auto-magically drag a twitch or stream channel into this panel.'
+    );
     this.state = {
-      dropzoneError: undefined
+      dropzoneError: undefined,
+      channelInput: props.channelInput || ''
     };
   }
 
   dropzoneId = () => {
-    return `dropzone_${this.props.dropzoneId}`;
+    return `dropzone_${this.props.id}`;
   }
 
   destroyDropzone = () => {
@@ -95,7 +128,9 @@ class StreamDropZone extends React.Component {
     } else {
       console.warn('Invalid URL was dragged into dropzone container.');
       this.setState({
-        dropzoneError: new Error(`Invalid URL dropped "${streamUrlDropped}". Please try a youtube or twitch stream.`)
+        dropzoneError: new Error(
+          `Invalid URL dropped "${streamUrlDropped}". Please try a youtube or twitch stream.`
+        )
       });
     }
   }
@@ -110,6 +145,17 @@ class StreamDropZone extends React.Component {
       this.dropzoneInstance.addEventListener('drop', this.handleDrop);
     } else {
       console.warn('There was an issue while trying to setup the widgets dropzone container.');
+    }
+  }
+
+  handleInputChange = (e) => {
+    this.setState({ channelInput: e.target.value })
+  }
+
+  handleChannelInputSelection = (e) => {
+    e.preventDefault();
+    if(this.props.onChannelSelected){
+      this.props.onChannelSelected(this.state.channelInput);
     }
   }
 
@@ -130,7 +176,10 @@ class StreamDropZone extends React.Component {
   }
 
   render(){
-    const { dropzoneError } = this.state;
+    const {
+      channelInput,
+      dropzoneError
+    } = this.state;
     return (
       <div
         className="stream-container"
@@ -141,20 +190,43 @@ class StreamDropZone extends React.Component {
           className="dropzone"
           style={ styles.configure__inner }
         >
-          <div style={ styles.padding }>
+          <form onSubmit={ this.handleChannelInputSelection }
+            style={ styles.padding }
+          >
             <h3>Configure Stream</h3>
-            <p>You can enter a channel name or auto-magically drag a twitch or stream channel into this panel.</p>
+            <p>{ this.configurationHelp }</p>
+            <div style={ styles.input__container }>
+              <input
+                style={ styles.manual__input }
+                value={ channelInput }
+                onChange={ this.handleInputChange }
+                placeholder="Enter a channel"
+              />
+              <button
+                type="submit"
+                style={ styles.button }
+              >
+                <CheckIcon style={ styles.icon } />
+              </button>
+            </div>
             {
               dropzoneError &&
                 <div style={ styles.configure__error }>
                   { dropzoneError.message }
                 </div>
             }
-          </div>
+          </form>
         </div>
       </div>
     );
   }
 }
+
+StreamDropZone.propTypes = {
+  id: PropTypes.string.isRequired,
+  onChannelSelected: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired,
+  onLoad: PropTypes.func
+};
 
 export default StreamDropZone;

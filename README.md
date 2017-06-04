@@ -24,14 +24,56 @@ any amount of windows in the browser.
 
 ##### Codez
 
-1. Add Redux
-  - Add in store configuration
-  - Add in immutableJS store scaffolding
+* Setup aws instance for public playground
+  * [Demo Instance](http://multi-stream.s3-website-us-east-1.amazonaws.com)
 
-2. Add Fetch (http client) to integrate w/ Twitch API
-  - Add fetch utility helper funcs for `isomorphic fetch`
-  - Look at generators or async/await usage
-  - Integrate w/ Twitch Developer API (can this be done anon?)
+* ~~Add babel-eslint~~
 
-3. Add Theme (pick css/inline style framework)
-  - Create base theme file for import
+* Add Theme (pick css/inline style framework)
+  * ~~Add base theme~~
+  * Look into other css frameworks for inline styles
+
+* ~~Basic layout and workflow w/ react-router v4~~
+
+* ~~Add Redux~~
+  * ~~Add in store configuration~~
+  * ~~Add in immutableJS store scaffolding~~
+    * ~~Add in transit-js encoding for immutableJS records~~
+  * ~~Persist to local storage~~
+    * ~~`localForage` integration~~
+  * ~~Load from local storage~~
+    * ~~`redux-persist` integration~~
+
+* ~~Add Fetch client~~
+  * ~~Add client wrapper over top of fetch~~
+  * ~~Add redux-saga w/ saga middleware~~
+  * ~~Add TWITCH API integration for channel querying~~
+  * ~~Add YOUTUBE API integration for channel querying~~
+  * ~~Add GOOGLE URL Shortener for sharing a layout configuration~~
+
+* Help dialog
+  * ~~Add help dialog modal~~
+  * Fill out help content and directions for usage
+
+* Share dialog and google link shortner integration
+  * ~~Add share dialog w/ input field that displays shortened google url link of the layout data from the store~~
+  * ~~Add google url shortener API w/ saga~~
+
+* ~~Load shared configuration from link~~
+  * ~~Add landing page for the sharable stuff~~
+  * ~~Add load container that takes a configuration from the url and injects into the current layout state for the user.~~
+
+* Stream Layout Features
+  * ~~Integrate `react-grid-layout` for configurable grid layout~~
+  * ~~Integrate Twitch Player and Youtube Player to view videos or live streams~~
+  * Add blank stream widget
+    * ~~Add button from Navbar~~
+    * ~~Drag and drop link or video stream into container~~
+    * Input field to copy and paste link reference
+  * ~~Clear all widgets in layout~~
+  * ~~Delete an individual widget from layout~~
+  * Change Video Quality across all streams
+  * Mute / Unmute across all streams
+  * Shuffle View for layouts
+    * Add toggle button into shuffle view
+    *
