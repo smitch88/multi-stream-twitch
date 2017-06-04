@@ -10,74 +10,33 @@ import {
 import { Grid, StreamWidget } from '../components';
 import theme from '../theme';
 
-const streamGridStyles = (offset) => ({
-  grid__container: {
-    display: 'flex',
-    height: `calc(100% - ${offset}px)`,
-    width: '100%',
-    color: 'inherit',
-    overflow: 'auto'
-  },
-  no__widgets: {
-    display: 'flex',
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '2em',
-    fontWeight: 300,
-    color: '#aaaaaa'
-  },
-  no__widgets__container: {
-    height: '60%',
-    width: '60%'
-  }
-});
-
 const StreamGrid = ({
   draggableSelector,
   layout,
-  offset,
   rowHeight,
   onUpdateLayout,
   onUpdateWidget,
   onDeleteWidget,
   scrollTo
 }) => {
-  const styles = streamGridStyles(offset);
   return (
-    <div
-      className="stream-grid"
-      style={ styles.grid__container }
+    <Grid
+      layout={ layout }
+      rowHeight={ 45 }
+      onLayoutChange={ onUpdateLayout }
+      scrollToElement={ `stream_widget_${scrollTo}` }
     >
-    {
-      layout && layout.length > 0 ?
-        <Grid
-          layout={ layout }
-          rowHeight={ 45 }
-          onLayoutChange={ onUpdateLayout }
-          scrollToElement={ `stream_widget_${scrollTo}` }
-        >
-          {
-            layout.map((props, index) => (
-              <StreamWidget
-                key={ props.i }
-                { ...props }
-                onUpdateWidget={ onUpdateWidget }
-                onDeleteWidget={ onDeleteWidget }
-              />
-            ))
-          }
-        </Grid>
-        :
-        <div style={ styles.no__widgets }>
-          <div style={ styles.no__widgets__container }>
-            You have added no streams. Use the autocomplete field above to find
-            a channel by name, or hit the '+' to add a new blank stream panel.
-          </div>
-        </div>
-    }
-    </div>
+      {
+        layout.map((props, index) => (
+          <StreamWidget
+            key={ props.i }
+            { ...props }
+            onUpdateWidget={ onUpdateWidget }
+            onDeleteWidget={ onDeleteWidget }
+          />
+        ))
+      }
+    </Grid>
   );
 };
 
@@ -87,7 +46,6 @@ StreamGrid.propTypes = {
   onUpdateWidget: PropTypes.func.isRequired,
   onDeleteWidget: PropTypes.func.isRequired,
   onUpdateLayout: PropTypes.func.isRequired,
-  offset: PropTypes.number,
   draggableSelector: PropTypes.string,
   scrollTo: PropTypes.string
 };

@@ -7,6 +7,8 @@ export const HOME_SHOW_SHARE_LINK_FAILED = 'HOME_SHOW_SHARE_LINK_FAILED';
 
 export const HOME_HIDE_SHARE_LINK = 'HOME_HIDE_SHARE_LINK';
 
+export const HOME_TOGGLE_VIEW_TYPE = 'HOME_TOGGLE_VIEW_TYPE';
+
 // Action Creators
 
 export const showHelp = () => ({
@@ -25,3 +27,7 @@ export const showShareableLink = (data) => ({
 export const hideShareableLink = () => ({
   type: HOME_HIDE_SHARE_LINK
 });
+
+export const toggleViewType = () => ({
+  type: HOME_TOGGLE_VIEW_TYPE
+})

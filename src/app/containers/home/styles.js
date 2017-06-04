@@ -25,6 +25,13 @@ export default {
     alignItems: 'center',
     flexGrow: 1
   },
+  content__container: (offset) => ({
+    display: 'flex',
+    height: `calc(100% - ${offset}px)`,
+    width: '100%',
+    color: 'inherit',
+    overflow: 'auto'
+  }),
   copyright: {
     fontSize: '0.8em',
     color: '#777777'
@@ -44,5 +51,19 @@ export default {
   },
   footer__links: {
     display: 'inline-flex'
+  },
+  no__widgets: {
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '2em',
+    fontWeight: 300,
+    color: '#aaaaaa'
+  },
+  no__widgets__container: {
+    height: '60%',
+    width: '60%'
   }
 };

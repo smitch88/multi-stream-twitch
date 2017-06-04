@@ -17,7 +17,7 @@ const newWidgetOverlaps = ([refX, refY], [oldW, oldH, nextW, nextH], lastYWidget
   }
 
   // check if there is even enough space for nextW
-  if(nextW > cols || yMax > refY + oldH){
+  if(nextW > cols || yMax > refY + oldH || (refY === 0 && yWidget)){
     return true;
   }
 
@@ -81,6 +81,14 @@ export const getPackedPosition = (layout) => {
     }
     return acc;
   }, {});
+
+  // No widgets in position x just add it below
+  if(!xIndexed[0]){
+    return {
+      x: 0,
+      y: Infinity
+    };
+  }
 
   const minimumX = (
     _.chain(xIndexed)

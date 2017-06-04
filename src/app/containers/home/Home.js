@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AddIcon from 'react-icons/lib/md/add';
 import ClearAllIcon from 'react-icons/lib/md/clear-all';
 import MuteAllIcon from 'react-icons/lib/md/volume-mute';
+import GridViewIcon from 'react-icons/lib/md/grid-on';
 import ShuffleViewIcon from 'react-icons/lib/ti/arrow-shuffle';
 import Tooltip from 'rc-tooltip';
 import uuid from 'uuidv4';
@@ -15,7 +16,8 @@ import {
   showHelp,
   hideHelp,
   showShareableLink,
-  hideShareableLink
+  hideShareableLink,
+  toggleViewType
 } from '../../../common/home/actions';
 import { Footer, Navbar, HelpDialog, ShareableLinkDialog } from '../../components';
 import ChannelAutoComplete from '../ChannelAutoComplete';
@@ -23,6 +25,7 @@ import StreamGrid from '../StreamGrid';
 import theme from '../../theme';
 import styles from './styles';
 import { getPackedPosition } from '../../../common/packer';
+import * as _ from 'lodash';
 
 const NavbarIconTooltip = (props) => {
   return (
@@ -38,10 +41,14 @@ const NavbarIconTooltip = (props) => {
 
 const NavbarActions = ({
   style,
+  showingGrid,
   onAddBlankWidget,
   onClearAllWidgets,
-  onMuteAllWidgets
+  onMuteAllWidgets,
+  onToggleViewType
 }) => {
+  const ViewToggleIcon = showingGrid ? ShuffleViewIcon : GridViewIcon;
+  const toggleIconTooltip = showingGrid ? 'Shuffle View' : 'Grid View';
   return (
     <div style={ style.navbar__actions }>
       <NavbarIconTooltip tooltip="Add Blank Panel">
@@ -67,9 +74,15 @@ const NavbarActions = ({
         </NavbarIconTooltip>
         */
       }
-      <NavbarIconTooltip tooltip="Shuffle View">
-        <ShuffleViewIcon style={ style.icon } />
-      </NavbarIconTooltip>
+      {
+        <NavbarIconTooltip tooltip={ toggleIconTooltip }>
+          <ViewToggleIcon
+            style={ style.icon }
+            onClick={ onToggleViewType }
+          />
+        </NavbarIconTooltip>
+      }
+
     </div>
   );
 };
@@ -81,6 +94,7 @@ const Home = ({
   title,
   layout,
   showingShareLink,
+  showingGrid,
   shortUrl,
   onHideHelp,
   onShowHelp,
@@ -88,7 +102,8 @@ const Home = ({
   onShowShare,
   onAddBlankWidget,
   onClearAllWidgets,
-  onMuteAllWidgets
+  onMuteAllWidgets,
+  onToggleViewType
 }) => (
   <div style={ styles.container }>
     <Navbar
@@ -100,13 +115,33 @@ const Home = ({
         <ChannelAutoComplete />
         <NavbarActions
           style={ styles }
+          showingGrid={ showingGrid }
           onAddBlankWidget={ onAddBlankWidget.bind(this, layout) }
           onClearAllWidgets={ onClearAllWidgets }
           onMuteAllWidgets={ onMuteAllWidgets }
+          onToggleViewType={ onToggleViewType }
         />
       </div>
     </Navbar>
-    <StreamGrid offset={ navbarHeight + footerHeight } />
+    <div
+      className="stream-content-container"
+      style={ styles.content__container(navbarHeight + footerHeight) }
+    >
+      {
+        _.isEmpty(layout) ?
+          <div style={ styles.no__widgets }>
+            <div style={ styles.no__widgets__container }>
+              You have added no streams. Use the autocomplete field above to find
+              a channel by name, or hit the '+' to add a new blank stream panel.
+            </div>
+          </div>
+          :
+          showingGrid ?
+            <StreamGrid />
+            :
+            <div>Show the shuffle view mode</div>  
+      }
+    </div>
     <Footer height={ footerHeight }>
       <div style={ styles.footer }>
         <span style={ styles.copyright }>{ 'MIT License, Copyright (c) 2017 Multi-Stream' }</span>
@@ -147,7 +182,8 @@ const mapDispatch = dispatch => ({
     dispatch(addWidget(i, { i, ...getPackedPosition(layout) }));
   },
   onClearAllWidgets: () => dispatch(clearLayout()),
-  onMuteAllWidgets: () => dispatch(muteAllWidgets())
+  onMuteAllWidgets: () => dispatch(muteAllWidgets()),
+  onToggleViewType: () => dispatch(toggleViewType())
 });
 
 export default connect(mapState, mapDispatch)(Home);

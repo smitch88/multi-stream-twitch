@@ -8,7 +8,8 @@ const HomeState = Record({
   showingHelp: false,
   showingShareLink: false,
   longUrl: '',
-  shortUrl: ''
+  shortUrl: '',
+  showingGrid: false
 }, 'home');
 
 const homeReducer = (state = new HomeState(), action) => {
@@ -34,6 +35,9 @@ const homeReducer = (state = new HomeState(), action) => {
 
     case actions.HOME_HIDE_SHARE_LINK:
       return state.set('showingShareLink', false);
+
+    case actions.HOME_TOGGLE_VIEW_TYPE:
+      return state.update('showingGrid', (v) => !v);
 
     default:
       return state;
