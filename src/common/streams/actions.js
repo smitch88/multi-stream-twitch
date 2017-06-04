@@ -24,9 +24,9 @@ export const clearLayout = () => ({
 export const ADD_WIDGET = 'ADD_WIDGET';
 export const UPDATE_WIDGET = 'UPDATE_WIDGET';
 export const DELETE_WIDGET = 'DELETE_WIDGET';
+export const MUTE_ALL_WIDGETS = 'MUTE_ALL_WIDGETS';
 
 const baseFields = ['i', 'autoplay', 'muted', 'type', 'name', 'playerId', 'channelId', 'videoId'];
-const twitchFields = ['display_name', 'followers', 'views'];
 
 const generateWidgetInstance = (data) => (
   Map({
@@ -42,6 +42,10 @@ const generateWidgetInstance = (data) => (
     static: false
   })
 );
+
+export const muteAllWidgets = () => ({
+  type: MUTE_ALL_WIDGETS
+});
 
 export const addWidget = (i, data) => ({
   type: ADD_WIDGET,

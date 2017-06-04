@@ -14,6 +14,17 @@ const streamsReducer = (state = new StreamsState(), action) => {
 
   switch(action.type){
 
+    case actions.MUTE_ALL_WIDGETS:
+      console.log(
+        state.update('layout', (m) => (
+          m.map((key, value) => {
+            console.log('iterating over widgets', key, value.toJS());
+            return value;
+          })
+        ))
+      )
+      return state;
+
     case actions.ADD_WIDGET:
       return state.set('scrollTo', action.i)
                   .mergeIn(['layout', action.i], action.data);
@@ -34,7 +45,10 @@ const streamsReducer = (state = new StreamsState(), action) => {
         );
 
     case actions.UPDATE_WIDGET:
-      return state.updateIn(['layout', action.i], (m) => m.merge(action.data));
+      return (
+        state.updateIn(['layout', action.i],
+        (m) => m ? m.merge(action.data) : action.data)
+      )
 
     default:
       return state;

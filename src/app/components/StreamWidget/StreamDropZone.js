@@ -124,7 +124,7 @@ class StreamDropZone extends React.Component {
     if(isValid){
       // Set new widget configuration that was dragged into the panel
       this.setState({ dropzoneError: undefined },
-        this.props.onDrop.bind(null, this.props.dropzoneId, urlData));
+        this.props.onDrop.bind(null, this.props.id, urlData));
     } else {
       console.warn('Invalid URL was dragged into dropzone container.');
       this.setState({

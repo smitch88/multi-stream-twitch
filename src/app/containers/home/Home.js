@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AddIcon from 'react-icons/lib/md/add';
-import ChangeQualityIcon from 'react-icons/lib/md/high-quality';
 import ClearAllIcon from 'react-icons/lib/md/clear-all';
 import MuteAllIcon from 'react-icons/lib/md/volume-mute';
 import ShuffleViewIcon from 'react-icons/lib/ti/arrow-shuffle';
 import Tooltip from 'rc-tooltip';
 import uuid from 'uuidv4';
-import { addWidget, clearLayout } from '../../../common/streams/actions';
+import {
+  addWidget,
+  clearLayout,
+  muteAllWidgets
+} from '../../../common/streams/actions';
 import {
   showHelp,
   hideHelp,
@@ -35,7 +38,8 @@ const NavbarIconTooltip = (props) => {
 const NavbarActions = ({
   style,
   onAddBlankWidget,
-  onClearAllWidgets
+  onClearAllWidgets,
+  onMuteAllWidgets
 }) => {
   return (
     <div style={ style.navbar__actions }>
@@ -51,11 +55,11 @@ const NavbarActions = ({
           onClick={ onClearAllWidgets }
         />
       </NavbarIconTooltip>
-      <NavbarIconTooltip tooltip="Change Video Quality">
-        <ChangeQualityIcon style={ style.icon } />
-      </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Mute All">
-        <MuteAllIcon style={ style.icon } />
+        <MuteAllIcon
+          style={ style.icon }
+          onClick={ onMuteAllWidgets }
+        />
       </NavbarIconTooltip>
       <NavbarIconTooltip tooltip="Shuffle View">
         <ShuffleViewIcon style={ style.icon } />
@@ -77,7 +81,8 @@ const Home = ({
   onHideShare,
   onShowShare,
   onAddBlankWidget,
-  onClearAllWidgets
+  onClearAllWidgets,
+  onMuteAllWidgets
 }) => (
   <div style={ styles.container }>
     <Navbar
@@ -91,6 +96,7 @@ const Home = ({
           style={ styles }
           onAddBlankWidget={ onAddBlankWidget }
           onClearAllWidgets={ onClearAllWidgets }
+          onMuteAllWidgets={ onMuteAllWidgets }
         />
       </div>
     </Navbar>
@@ -134,7 +140,8 @@ const mapDispatch = dispatch => ({
     const i = uuid();
     dispatch(addWidget(i, { i }));
   },
-  onClearAllWidgets: () => dispatch(clearLayout())
+  onClearAllWidgets: () => dispatch(clearLayout()),
+  onMuteAllWidgets: () => dispatch(muteAllWidgets())
 });
 
 export default connect(mapState, mapDispatch)(Home);
