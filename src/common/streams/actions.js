@@ -34,7 +34,7 @@ const generateWidgetInstance = (data) => (
     x: 0,
     y: Infinity,
     w: 6,
-    h: 6,
+    h: 10,
     minW: 3,
     minH: 4,
     maxW: 12,

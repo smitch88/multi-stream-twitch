@@ -55,12 +55,17 @@ const NavbarActions = ({
           onClick={ onClearAllWidgets }
         />
       </NavbarIconTooltip>
-      <NavbarIconTooltip tooltip="Mute All">
-        <MuteAllIcon
-          style={ style.icon }
-          onClick={ onMuteAllWidgets }
-        />
-      </NavbarIconTooltip>
+      {
+        /*
+        Revisit mute all | change video quality, when building out custom player controls
+        <NavbarIconTooltip tooltip="Mute All">
+          <MuteAllIcon
+            style={ style.icon }
+            onClick={ onMuteAllWidgets }
+          />
+        </NavbarIconTooltip>
+        */
+      }
       <NavbarIconTooltip tooltip="Shuffle View">
         <ShuffleViewIcon style={ style.icon } />
       </NavbarIconTooltip>
