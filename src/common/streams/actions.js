@@ -3,7 +3,7 @@ import { fromJS, Map, Seq } from 'immutable';
 
 export const WIDGET_CONSTRAINTS = {
   w: 6,
-  h: 12,
+  h: 10,
   minW: 3,
   minH: 4,
   maxW: 12,
