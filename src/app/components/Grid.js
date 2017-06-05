@@ -39,7 +39,7 @@ class Grid extends React.Component {
       draggableSelector: '.grid-item-component',
       isMoving: false
     };
-    this.debugIds = false;
+    this.debug = true;
     // Maps directly to https://github.com/STRML/react-grid-layout#responsive-grid-layout-props
     this.state = Object.assign({}, this.defaults, props);
   }
@@ -62,7 +62,7 @@ class Grid extends React.Component {
         className="grid-item-component"
         style={ styles.grid__item }
       >
-        { this.debugIds && child.props.i }
+        { this.debug && `${child.props.i}: x: ${child.props.x}, y: ${child.props.y}, w: ${child.props.w}, h: ${child.props.h}` }}
         { child }
       </div>
     ))

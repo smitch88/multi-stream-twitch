@@ -1,6 +1,16 @@
 import * as _ from 'lodash';
 import { fromJS, Map, Seq } from 'immutable';
 
+export const WIDGET_CONSTRAINTS = {
+  w: 6,
+  h: 12,
+  minW: 3,
+  minH: 4,
+  maxW: 12,
+  maxH: 24,
+  static: false
+};
+
 export const LOAD_SHARED_LAYOUT = 'LOAD_SHARED_LAYOUT';
 
 export const loadSharedLayout = (layout) => ({
@@ -31,15 +41,9 @@ const baseFields = ['i', 'autoplay', 'muted', 'type', 'name', 'playerId', 'chann
 const generateWidgetInstance = (data) => (
   Map({
     ...(_.pick(data, baseFields)),
+    ...WIDGET_CONSTRAINTS,
     x: _.get(data, 'x', 0),
-    y: _.get(data, 'y', Infinity),
-    w: 6,
-    h: 10,
-    minW: 3,
-    minH: 4,
-    maxW: 12,
-    maxH: 24,
-    static: false
+    y: _.get(data, 'y', Infinity)
   })
 );
 

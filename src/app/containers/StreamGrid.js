@@ -22,7 +22,7 @@ const StreamGrid = ({
   return (
     <Grid
       layout={ layout }
-      rowHeight={ 45 }
+      rowHeight={ 50 }
       onLayoutChange={ onUpdateLayout }
       scrollToElement={ `stream_widget_${scrollTo}` }
     >

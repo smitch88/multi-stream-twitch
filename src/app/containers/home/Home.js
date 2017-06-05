@@ -8,6 +8,7 @@ import ShuffleViewIcon from 'react-icons/lib/ti/arrow-shuffle';
 import Tooltip from 'rc-tooltip';
 import uuid from 'uuidv4';
 import {
+  WIDGET_CONSTRAINTS,
   addWidget,
   clearLayout,
   muteAllWidgets
@@ -139,7 +140,7 @@ const Home = ({
           showingGrid ?
             <StreamGrid />
             :
-            <div>Show the shuffle view mode</div>  
+            <div>Show the shuffle view mode</div>
       }
     </div>
     <Footer height={ footerHeight }>
@@ -179,7 +180,7 @@ const mapDispatch = dispatch => ({
   onHideShare: () => dispatch(hideShareableLink()),
   onAddBlankWidget: (layout) => {
     const i = uuid();
-    dispatch(addWidget(i, { i, ...getPackedPosition(layout) }));
+    dispatch(addWidget(i, { i, ...getPackedPosition(12, WIDGET_CONSTRAINTS, layout) }));
   },
   onClearAllWidgets: () => dispatch(clearLayout()),
   onMuteAllWidgets: () => dispatch(muteAllWidgets()),
