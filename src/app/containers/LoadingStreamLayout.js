@@ -32,6 +32,7 @@ class LoadingStreamLayout extends React.Component {
   parseParamsAndUpdateLayout = () => {
     try {
       const parsedLayout = fromJSON(this.props.match.params.share);
+      console.log('parsedLayout in this bitch', parsedLayout);
       this.props.onLoadLayout(parsedLayout);
       this.props.history.replace('/', {});
     } catch (e) {

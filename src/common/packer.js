@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 // Returns a 2d matrix of the widgets w/ flip bits set to 1
 const generate2dMatrix = (cols, widgets) => {
   const emptyRow = (c) => _.map(_.range(c), _.constant(0));
-  const maxY = _.reduce(widgets, (acc, { y, h }) => {
+  let maxY = _.reduce(widgets, (acc, { y, h }) => {
     if((y + h) > acc){
       return y + h;
     }
@@ -48,5 +48,6 @@ export const getPackedPosition = (cols, constraints, layout) => {
       y: 0
     };
   }
-  return findBlockFit(constraints, generate2dMatrix(cols, widgets));
+  const matrix = []; // TODO: generate2dMatrix(cols, widgets);
+  return findBlockFit(constraints, matrix);
 };

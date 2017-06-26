@@ -161,6 +161,17 @@ class StreamShuffler extends React.Component {
     }
   }
 
+  getLiveChatUrl(stream){
+    switch(stream.type){
+      case 'youtube':
+        return `https://www.youtube.com/live_chat?v=${stream.videoId}&embed_domain=${location.origin}`;
+      case 'twitch':
+        return `http://www.twitch.tv/${stream.channelId}/chat`;
+      default:
+        console.error('Unknown chat type screen', type);
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDownCapture);
   }
@@ -190,11 +201,11 @@ class StreamShuffler extends React.Component {
           </div>
           <div style={ styles.view__chat }>
             {
-              currentStream.channelId ?
+              currentStream.channelId || currentStream.videoId ?
                 <iframe
                   style={ styles.chat__iframe }
                   scrolling="no"
-                  src={ `http://www.twitch.tv/${currentStream.channelId}/chat` }
+                  src={ this.getLiveChatUrl(currentStream) }
                 />
                 :
                 <div style={ styles.chat__noId }>
@@ -245,7 +256,7 @@ class StreamShuffler extends React.Component {
 const mapStateToProps = ({ home, streams }) => {
   const { currentStream } = home.toJS();
   const { layout } = streams.toJS();
-  const previewStreams = _.values(layout);
+  const previewStreams = _.orderBy(layout, 'y', 'asc');
   return {
     streams: previewStreams,
     // default to the zeroeth stream
