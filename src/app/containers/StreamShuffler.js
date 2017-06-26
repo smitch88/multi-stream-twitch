@@ -83,9 +83,9 @@ const baseStyles = ({ carouselHeight = 110 }) => ({
     borderBottom: 0,
     cursor: 'pointer'
   },
-  preview__active: {
-    backgroundColor: theme.colors.primary
-  },
+  preview__active: (type) => ({
+    backgroundColor: theme.branding[type || 'twitch'].color
+  }),
   preview__inner: {
     position: 'absolute',
     display: 'flex',
@@ -220,14 +220,18 @@ class StreamShuffler extends React.Component {
         >
           <div style={ styles.carousel__inner }>
             {
-              streams.map(({ i, playerId, video_banner, logo }) => {
+              streams.map(({ i, playerId, type, video_banner, logo }) => {
                 const isActive = currentStream.i === i;
+                const previewClassName = `stream-preview ${ isActive ? 'is-active' : '' }`;
+                const previewStyles = (
+                  Object.assign({}, styles.preview, isActive && styles.preview__active(type))
+                );
                 const backgroundImage = video_banner || logo;
                 return (
                   <div
                     key={ i }
-                    className="stream-preview"
-                    style={ Object.assign({}, styles.preview, isActive && styles.preview__active) }
+                    className={ previewClassName }
+                    style={ previewStyles }
                     onClick={ onSetStream.bind(this, i) }
                   >
                     <div style={ styles.preview__inner }>
@@ -235,7 +239,10 @@ class StreamShuffler extends React.Component {
                     </div>
                     {
                       backgroundImage &&
-                        <div style={ styles.preview__background }>
+                        <div
+                          className="stream-background"
+                          style={ styles.preview__background }
+                        >
                           <img
                             style={ styles.profile__banner }
                             src={ backgroundImage }

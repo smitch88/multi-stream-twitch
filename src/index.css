@@ -392,3 +392,7 @@ body, #root {
 .closer-component:hover svg {
   color: #e74c3c !important;
 }
+
+.stream-preview:hover {
+  transform: scale(1.125);
+}
