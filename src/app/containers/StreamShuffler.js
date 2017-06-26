@@ -173,7 +173,7 @@ class StreamShuffler extends React.Component {
   getLiveChatUrl(stream){
     switch(stream.type){
       case 'youtube':
-        return `https://www.youtube.com/live_chat?v=${stream.videoId}&embed_domain=${location.origin}`;
+        return `https://www.youtube.com/live_chat?v=${stream.videoId}&embed_domain=${location.hostname}`;
       case 'twitch':
         return `http://www.twitch.tv/${stream.channelId}/chat`;
       default:
