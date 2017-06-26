@@ -7,7 +7,8 @@ const emptySuccess = put({
   type: actions.QUERY_CHANNELS_SUCCEEDED,
   data: {
   _total: 0,
-  channels: []
+  channels: [],
+  streams: []
 }});
 
 /*
@@ -24,8 +25,16 @@ function* _queryChannels({ query }) {
     if(!query){
       yield emptySuccess;
     } else {
-      const url = `https://api.twitch.tv/kraken/search/channels?query=${query}&limit=100`;
-      const data = yield call(twitchRequest, url);
+      const channelUrl = `https://api.twitch.tv/kraken/search/channels?query=${query}&limit=100`;
+      const channelData = yield call(twitchRequest, channelUrl);
+      const streamUrl = `https://api.twitch.tv/kraken/search/streams?query=${query}&limit=100`;
+      const streamData = yield call(twitchRequest, streamUrl);
+      const data = {
+        channels: channelData.channels,
+        _total: channelData._total,
+        streams: streamData.streams,
+        _totalStreams: streamData._total
+      };
       yield put({ type: actions.QUERY_CHANNELS_SUCCEEDED, data });
     }
   } catch (e) {

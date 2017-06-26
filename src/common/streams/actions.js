@@ -36,7 +36,7 @@ export const UPDATE_WIDGET = 'UPDATE_WIDGET';
 export const DELETE_WIDGET = 'DELETE_WIDGET';
 export const MUTE_ALL_WIDGETS = 'MUTE_ALL_WIDGETS';
 
-const baseFields = ['i', 'autoplay', 'muted', 'type', 'name', 'playerId', 'channelId', 'videoId'];
+const baseFields = ['i', 'autoplay', 'muted', 'type', 'name', 'playerId', 'channelId', 'videoId', 'video_banner', 'logo'];
 
 const generateWidgetInstance = (data) => (
   Map({

@@ -23,6 +23,7 @@ import {
 import { Footer, Navbar, HelpDialog, ShareableLinkDialog } from '../../components';
 import ChannelAutoComplete from '../ChannelAutoComplete';
 import StreamGrid from '../StreamGrid';
+import StreamShuffler from '../StreamShuffler';
 import theme from '../../theme';
 import styles from './styles';
 import { getPackedPosition } from '../../../common/packer';
@@ -140,7 +141,7 @@ const Home = ({
           showingGrid ?
             <StreamGrid />
             :
-            <div>Show the shuffle view mode</div>
+            <StreamShuffler />
       }
     </div>
     <Footer height={ footerHeight }>

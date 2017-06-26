@@ -227,8 +227,8 @@ class StreamWidget extends React.Component {
         <WidgetToolbar
           icon={ this.toolbarIcon(type) }
           style={ styles.widget__toolbar }
-          onClose={ this.handleDelete }
-          onChange={ this.handleChangeChannel }
+          onClose={ this.props.onDeleteWidget && this.handleDelete }
+          onChange={ this.props.onUpdateWidget && this.props.handleChangeChannel }
         />
         {
           playerId ?
@@ -258,6 +258,11 @@ class StreamWidget extends React.Component {
 }
 
 StreamWidget.propTypes = {
+  i: PropTypes.string.isRequired,
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  w: PropTypes.number.isRequired,
+  h: PropTypes.number.isRequired,
   onUpdateWidget: PropTypes.func.isRequired,
   style: PropTypes.object
 };

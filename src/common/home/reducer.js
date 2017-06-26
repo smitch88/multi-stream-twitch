@@ -9,7 +9,8 @@ const HomeState = Record({
   showingShareLink: false,
   longUrl: '',
   shortUrl: '',
-  showingGrid: false
+  showingGrid: false,
+  currentStream: ''
 }, 'home');
 
 const homeReducer = (state = new HomeState(), action) => {
@@ -39,6 +40,9 @@ const homeReducer = (state = new HomeState(), action) => {
     case actions.HOME_TOGGLE_VIEW_TYPE:
       return state.update('showingGrid', (v) => !v);
 
+    case actions.HOME_SHUFFLE_VIEW_SET_STREAM:
+      return state.set('currentStream', action.id);
+      
     default:
       return state;
   }
