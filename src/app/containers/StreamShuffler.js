@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import theme from '../theme';
-import { StreamWidget } from '../components';
+import { Closer, StreamWidget } from '../components';
 import { setCurrentStream } from '../../common/home/actions';
-import { updateWidget } from '../../common/streams/actions';
+import { deleteWidget, updateWidget } from '../../common/streams/actions';
 import { keyBindings } from '../../common/utils';
 
 const baseStyles = ({ carouselHeight = 110 }) => ({
@@ -110,6 +110,15 @@ const baseStyles = ({ carouselHeight = 110 }) => ({
   profile__banner: {
     height: '100%',
     width: '100%'
+  },
+  preview__closer: {
+    container: {
+      display: 'none',
+      position: 'absolute',
+      top: 1,
+      right: 2,
+      zIndex: 3
+    }
   }
 });
 
@@ -182,7 +191,7 @@ class StreamShuffler extends React.Component {
 
   render(){
     const styles = baseStyles(this.props);
-    const { currentStream, onSetStream, onUpdateWidget, streams } = this.props;
+    const { currentStream, onSetStream, onDeleteWidget, onUpdateWidget, streams } = this.props;
     return (
       <div
         style={ styles.shuffler }
@@ -249,6 +258,10 @@ class StreamShuffler extends React.Component {
                           />
                         </div>
                     }
+                    <Closer
+                      style={ styles.preview__closer }
+                      onClose={ onDeleteWidget.bind(this, i) }
+                    />
                   </div>
                 )
               })
@@ -273,7 +286,8 @@ const mapStateToProps = ({ home, streams }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onSetStream: (id) => dispatch(setCurrentStream(id)),
-  onUpdateWidget: _.flowRight([dispatch, updateWidget])
+  onUpdateWidget: _.flowRight([dispatch, updateWidget]),
+  onDeleteWidget: _.flowRight([dispatch, deleteWidget])
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StreamShuffler);

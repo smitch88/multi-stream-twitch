@@ -393,6 +393,6 @@ body, #root {
   color: #e74c3c !important;
 }
 
-.stream-preview:hover {
-  transform: scale(1.125);
+.stream-preview:hover .closer-component {
+  display: block !important;
 }
