@@ -112,7 +112,7 @@ class StreamWidget extends React.Component {
   }
 
   startStream = (props) => {
-    const { type, playerId, channelId, videoId } = props;
+    const { type, playerId } = props;
     const onReady = this.setReady.bind(this, props);
     const playerContainerId = this.playerContainerId();
     switch(type){
@@ -122,7 +122,7 @@ class StreamWidget extends React.Component {
             this.playerInstance = new window.YT.Player(playerContainerId, {
               height: '100%',
               width: '100%',
-              videoId: videoId,
+              videoId: props.videoId,
               events: {
                 onReady: onReady
               }
@@ -140,9 +140,9 @@ class StreamWidget extends React.Component {
             this.playerInstance = new window.Twitch.Player(playerContainerId, {
               width: '100%',
               height: '100%',
-              channel: channelId
+              channel: props.channelId
             });
-            this.playerInstance.addEventListener('ready', onReady);
+            this.playerInstance.addEventListener('play', onReady);
 
           } catch(e){
             console.error(e);
