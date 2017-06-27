@@ -112,13 +112,14 @@ class StreamWidget extends React.Component {
   }
 
   startStream = (props) => {
-    const { type, channelId, videoId } = props;
+    const { type, playerId, channelId, videoId } = props;
     const onReady = this.setReady.bind(this, props);
+    const playerContainerId = this.playerContainerId();
     switch(type){
       case 'youtube':
         setTimeout(() => {
           try {
-            this.playerInstance = new window.YT.Player(videoId, {
+            this.playerInstance = new window.YT.Player(playerContainerId, {
               height: '100%',
               width: '100%',
               videoId: videoId,
@@ -136,7 +137,7 @@ class StreamWidget extends React.Component {
       default:
         setTimeout(() => {
           try {
-            this.playerInstance = new window.Twitch.Player(channelId, {
+            this.playerInstance = new window.Twitch.Player(playerContainerId, {
               width: '100%',
               height: '100%',
               channel: channelId
@@ -193,6 +194,8 @@ class StreamWidget extends React.Component {
     });
   }
 
+  playerContainerId = () => `${ this.props.playerId }_${ this.props.i }`
+
   componentDidMount(){
     if(this.props.playerId){
       this.setState({ isReady: false }, this.startStream.bind(this, this.props));
@@ -211,6 +214,7 @@ class StreamWidget extends React.Component {
   render(){
     const { i, style, type, playerId } = this.props;
     const styles = baseStyles(style);
+    const playerContainerId = this.playerContainerId();
     return (
       <div
         id={ `stream_widget_${i}` }
@@ -233,7 +237,7 @@ class StreamWidget extends React.Component {
         {
           playerId ?
             <div
-              id={ playerId }
+              id={ playerContainerId }
               ref={ (el) => { this.playerInstanceEl = el; }}
               className="stream-container"
               style={ styles.stream__view }

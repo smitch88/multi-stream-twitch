@@ -29,7 +29,7 @@ const StreamGrid = ({
       {
         layout.map((props, index) => (
           <StreamWidget
-            key={ props.i }
+            key={ `${ props.i }_${ index }` }
             { ...props }
             onUpdateWidget={ onUpdateWidget }
             onDeleteWidget={ onDeleteWidget }
