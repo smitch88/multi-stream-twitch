@@ -12,14 +12,15 @@ const emptySuccess = put({
   longUrl: ''
 }});
 
-const normalize = (data) => {
-  return _.map(data, (value, key) => {
+const normalize = (data) => (
+  _.reduce(data, (acc, value, key) => {
     // Remove anything that could be a url as google doesnt like that
     delete value.video_banner;
     delete value.logo;
-    return _.pickBy(value, (item) => !_.isNull(item));
-  });
-};
+    acc[key] = _.pickBy(value, (item) => !_.isNull(item));
+    return acc;
+  }, {})
+);
 
 function* _getGoogleShortenedURL({ data }) {
   try {
