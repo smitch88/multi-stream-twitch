@@ -142,7 +142,7 @@ class StreamWidget extends React.Component {
               height: '100%',
               channel: props.channelId
             });
-            this.playerInstance.addEventListener('play', onReady);
+            this.playerInstance.addEventListener('ready', onReady);
 
           } catch(e){
             console.error(e);

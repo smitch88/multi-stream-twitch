@@ -36,11 +36,12 @@ const baseStyles = ({ carouselHeight = 110 }) => ({
     backgroundColor: theme.colors.black,
     overflow: 'hidden'
   },
-  chat__iframe: {
+  chat__iframe: (isVisible) => ({
     border: 'none',
     width: '100%',
-    height: '100%'
-  },
+    height: '100%',
+    display: isVisible ? 'block' : 'none'
+  }),
   chat__noId: {
     display: 'flex',
     width: '100%',
@@ -133,6 +134,7 @@ class StreamShuffler extends React.Component {
     this.handleKeyDownCapture = this.handleKeyDownCapture.bind(this);
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
+    this.chatWindows = {};
     this.keyBindingToAction = {
       [keyBindings.ARROW_LEFT]: this.goBack,
       [keyBindings.ARROW_RIGHT]: this.goForward
@@ -177,8 +179,12 @@ class StreamShuffler extends React.Component {
       case 'twitch':
         return `http://www.twitch.tv/${stream.channelId}/chat`;
       default:
-        console.error('Unknown chat type screen', type);
+        //console.error('Unknown chat type screen', type);
     }
+  }
+
+  streamId(currentStream){
+    return currentStream.channelId || currentStream.videoId;
   }
 
   componentWillUnmount() {
@@ -192,6 +198,7 @@ class StreamShuffler extends React.Component {
   render(){
     const styles = baseStyles(this.props);
     const { currentStream, onSetStream, onDeleteWidget, onUpdateWidget, streams } = this.props;
+    const visibleChatId = this.streamId(currentStream);
     return (
       <div
         style={ styles.shuffler }
@@ -210,16 +217,17 @@ class StreamShuffler extends React.Component {
           </div>
           <div style={ styles.view__chat }>
             {
-              currentStream.channelId || currentStream.videoId ?
-                <iframe
-                  style={ styles.chat__iframe }
-                  scrolling="no"
-                  src={ this.getLiveChatUrl(currentStream) }
-                />
-                :
-                <div style={ styles.chat__noId }>
-                  A channel is not configured to view chat.
-                </div>
+              streams.map((stream) => {
+                const streamId = this.streamId(stream);
+                return (
+                  <iframe
+                    key={ streamId }
+                    style={ styles.chat__iframe(visibleChatId === streamId) }
+                    scrolling="no"
+                    src={ this.getLiveChatUrl(stream) }
+                  />
+                )
+              })
             }
           </div>
         </div>
