@@ -4,6 +4,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import * as _ from 'lodash';
 import { googleShortenerRequest } from '../../fetch';
 import { toJSON } from '../../transit';
+import msgpack from 'msgpack-lite';
 
 const emptySuccess = put({
   type: actions.HOME_SHOW_SHARE_LINK_SUCCEEDED,
@@ -22,13 +23,16 @@ const normalize = (data) => (
   }, {})
 );
 
+console.log('webpackmsg', msgpack);
+
 function* _getGoogleShortenedURL({ data }) {
   try {
     if(!data || data && data.length === 0){
       yield emptySuccess;
     } else {
       const url = `https://www.googleapis.com/urlshortener/v1/url`;
-      const longUrl = `${location.protocol}//${location.host}/${toJSON(normalize(data))}`;
+      const encodedData = msgpack.encode(window.btoa(normalize(data)));
+      const longUrl = `${location.protocol}//${location.host}/${encodedData}`;
       const response = yield call(googleShortenerRequest, url, { longUrl });
       yield put({ type: actions.HOME_SHOW_SHARE_LINK_SUCCEEDED, response });
     }

@@ -4,6 +4,7 @@ import { LoadingIndicator } from '../components';
 import theme from '../theme';
 import { loadSharedLayout } from '../../common/streams/actions';
 import { fromJSON } from '../../transit';
+import msgpack from 'msgpack-lite';
 
 const styles = {
   loading__layout: {
@@ -31,7 +32,8 @@ class LoadingStreamLayout extends React.Component {
 
   parseParamsAndUpdateLayout = () => {
     try {
-      const parsedLayout = fromJSON(this.props.match.params.share);
+      const parsedLayout = msgpack.decode(window.atob(this.props.match.params.share));
+      //const parsedLayout = fromJSON(this.props.match.params.share);
       this.props.onLoadLayout(parsedLayout);
       this.props.history.replace('/', {});
     } catch (e) {
