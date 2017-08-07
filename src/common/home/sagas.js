@@ -23,8 +23,6 @@ const normalize = (data) => (
   }, {})
 );
 
-console.log('webpackmsg', msgpack);
-
 function* _getGoogleShortenedURL({ data }) {
   try {
     if(!data || data && data.length === 0){
